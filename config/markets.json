@@ -1,0 +1,425 @@
+{
+  "_source": "Facts and approved wording from reports/Facebook About section kit.md (31 Oct 2026) and each site's own config (1 Nov 2026). Edit here; the engine re-reads on start.",
+  "excludedHouses": [
+    "USS"
+  ],
+  "markets": {
+    "ie": {
+      "brand": "Carbarn Ireland",
+      "site": "carbarn.ie",
+      "lang": "en-IE",
+      "spelling": "uk",
+      "currency": "EUR",
+      "dateStyle": "dmy",
+      "folder": "carbarn-ireland",
+      "logo": "carbarn-ie-logo.png",
+      "ports": "Dublin or Cork",
+      "leadFact": "Every car shows its auction grade and estimated landed cost in Ireland, VAT and VRT included, before you commit.",
+      "hashtags": [
+        "#CarbarnIreland",
+        "#JapaneseImports",
+        "#ImportFromJapan"
+      ],
+      "categories": [
+        {
+          "slug": "family-7-seaters",
+          "label": "7-8 Seater Family",
+          "noun": "family 7- and 8-seaters",
+          "tag": "#PeopleCarrier",
+          "emoji": "🚐"
+        },
+        {
+          "slug": "hybrid",
+          "label": "Hybrid",
+          "noun": "hybrids",
+          "tag": "#Hybrid",
+          "emoji": "⚡"
+        },
+        {
+          "slug": "small-petrol",
+          "label": "Small Petrol",
+          "noun": "small petrol cars",
+          "tag": "#CityCar",
+          "emoji": "🚗"
+        },
+        {
+          "slug": "suv",
+          "label": "SUV & Crossover",
+          "noun": "SUVs and crossovers",
+          "tag": "#SUV",
+          "emoji": "🚙"
+        },
+        {
+          "slug": "sports",
+          "label": "Sports",
+          "noun": "sports cars",
+          "tag": "#JDM",
+          "emoji": "🏁"
+        }
+      ],
+      "country": "Ireland",
+      "hello": "Hello Ireland",
+      "buyers": "Irish buyers",
+      "portsShort": "DUBLIN & CORK",
+      "fact": {
+        "title": "Costs shown before you commit",
+        "body": "Every car shows its estimated landed cost in Ireland, VAT and VRT included, before you commit."
+      },
+      "collections": [
+        "toyota",
+        "honda",
+        "nissan",
+        "mazda",
+        "subaru",
+        "suzuki",
+        "mitsubishi",
+        "daihatsu",
+        "lexus",
+        "land-cruiser",
+        "alphard",
+        "prius",
+        "aqua",
+        "hiace",
+        "jimny",
+        "nbox",
+        "manual",
+        "convertibles",
+        "diesel-4x4",
+        "grade-5",
+        "grade-6",
+        "nearly-new",
+        "eight-seaters",
+        "jdm-classics",
+        "wagons",
+        "hybrid-4wd",
+        "manual-sports",
+        "hatchbacks"
+      ]
+    },
+    "uk": {
+      "brand": "Carbarn United Kingdom",
+      "site": "carbarn.uk",
+      "lang": "en-GB",
+      "spelling": "uk",
+      "currency": "GBP",
+      "dateStyle": "dmy",
+      "folder": "carbarn-united-kingdom",
+      "logo": "carbarn-uk-logo.png",
+      "ports": "Southampton or Portbury",
+      "leadFact": null,
+      "hashtags": [
+        "#CarbarnUK",
+        "#JDM",
+        "#JapaneseImports"
+      ],
+      "categories": [
+        {
+          "slug": "kei-cars",
+          "label": "Kei Cars",
+          "noun": "kei cars",
+          "tag": "#KeiCar",
+          "emoji": "🇯🇵"
+        },
+        {
+          "slug": "people-carriers",
+          "label": "People Carriers",
+          "noun": "people carriers",
+          "tag": "#PeopleCarrier",
+          "emoji": "🚐"
+        },
+        {
+          "slug": "hybrid",
+          "label": "Hybrid",
+          "noun": "hybrids",
+          "tag": "#Hybrid",
+          "emoji": "⚡"
+        },
+        {
+          "slug": "vans-campers",
+          "label": "Vans",
+          "noun": "vans and campers",
+          "tag": "#Campervan",
+          "emoji": "🚐"
+        },
+        {
+          "slug": "4wd",
+          "label": "4WD",
+          "noun": "4x4s",
+          "tag": "#4x4",
+          "emoji": "🏔️"
+        },
+        {
+          "slug": "sports",
+          "label": "Sports",
+          "noun": "sports cars",
+          "tag": "#JDMImports",
+          "emoji": "🏁"
+        }
+      ],
+      "country": "the UK",
+      "hello": "Hello UK",
+      "buyers": "UK buyers",
+      "portsShort": "SOUTHAMPTON & PORTBURY",
+      "fact": {
+        "title": "Right-hand drive, like home",
+        "body": "Japan drives on the left, like the UK. Every car we sell is right-hand drive and ships RoRo to Southampton or Portbury."
+      },
+      "collections": [
+        "toyota",
+        "honda",
+        "nissan",
+        "mazda",
+        "subaru",
+        "suzuki",
+        "mitsubishi",
+        "daihatsu",
+        "lexus",
+        "land-cruiser",
+        "alphard",
+        "prius",
+        "aqua",
+        "hiace",
+        "jimny",
+        "nbox",
+        "manual",
+        "convertibles",
+        "diesel-4x4",
+        "grade-5",
+        "grade-6",
+        "nearly-new",
+        "eight-seaters",
+        "jdm-classics",
+        "wagons",
+        "hybrid-4wd",
+        "manual-sports",
+        "hatchbacks"
+      ]
+    },
+    "us": {
+      "brand": "Carbarn United States",
+      "site": "carbarn.us",
+      "lang": "en-US",
+      "spelling": "us",
+      "currency": "USD",
+      "dateStyle": "mdy",
+      "folder": "carbarn-united-states",
+      "logo": "carbarn-us-logo.png",
+      "ports": "LA/Long Beach, Tacoma, Houston, Jacksonville or Baltimore",
+      "leadFact": "Every car we list for the US is at least 25 years old, counted from its build month.",
+      "hashtags": [
+        "#CarbarnUSA",
+        "#JDM",
+        "#25YearRule"
+      ],
+      "categories": [
+        {
+          "slug": "sports",
+          "label": "Sports",
+          "noun": "JDM sports cars",
+          "tag": "#JDMImports",
+          "emoji": "🏁"
+        },
+        {
+          "slug": "4wd",
+          "label": "4WD",
+          "noun": "4x4s",
+          "tag": "#4x4",
+          "emoji": "🏔️"
+        },
+        {
+          "slug": "vans-campers",
+          "label": "Vans",
+          "noun": "vans and campers",
+          "tag": "#VanLife",
+          "emoji": "🚐"
+        },
+        {
+          "slug": "manual",
+          "label": "Manual",
+          "noun": "manual-gearbox cars",
+          "tag": "#SaveTheManuals",
+          "emoji": "🕹️"
+        }
+      ],
+      "country": "the US",
+      "hello": "Hello USA",
+      "buyers": "US buyers",
+      "portsShort": "5 US PORTS",
+      "fact": {
+        "title": "25 years old, at least",
+        "body": "Every car we list for the US is at least 25 years old, counted from its build month."
+      },
+      "collections": [
+        "toyota",
+        "honda",
+        "nissan",
+        "suzuki",
+        "mitsubishi",
+        "manual",
+        "eight-seaters",
+        "jdm-classics",
+        "manual-sports"
+      ]
+    },
+    "mt": {
+      "brand": "Carbarn Malta",
+      "site": "carbarn.mt",
+      "lang": "en-MT",
+      "spelling": "uk",
+      "currency": "EUR",
+      "dateStyle": "dmy",
+      "folder": "carbarn-malta",
+      "logo": "carbarn-mt-logo.png",
+      "ports": "Marsaxlokk or Valletta",
+      "leadFact": "SVA and JEVIC certificates are arranged in Japan before the car sails.",
+      "hashtags": [
+        "#CarbarnMalta",
+        "#Malta",
+        "#JapaneseCars"
+      ],
+      "categories": [
+        {
+          "slug": "city-hatchbacks",
+          "label": "City Hatchbacks",
+          "noun": "city hatchbacks",
+          "tag": "#CityCar",
+          "emoji": "🏙️"
+        },
+        {
+          "slug": "suv",
+          "label": "SUV & Crossover",
+          "noun": "SUVs and crossovers",
+          "tag": "#SUV",
+          "emoji": "🚙"
+        },
+        {
+          "slug": "hybrid",
+          "label": "Hybrid",
+          "noun": "hybrids",
+          "tag": "#Hybrid",
+          "emoji": "⚡"
+        },
+        {
+          "slug": "vans-campers",
+          "label": "Vans",
+          "noun": "vans and campers",
+          "tag": "#Van",
+          "emoji": "🚐"
+        }
+      ],
+      "country": "Malta",
+      "hello": "Hello Malta",
+      "buyers": "Maltese buyers",
+      "portsShort": "MARSAXLOKK & VALLETTA",
+      "fact": {
+        "title": "SVA and JEVIC, sorted in Japan",
+        "body": "Malta asks for two certificates before a car is loaded: SVA and JEVIC. Carbarn arranges both in Japan, so the paperwork travels with the car."
+      },
+      "collections": [
+        "toyota",
+        "honda",
+        "nissan",
+        "mazda",
+        "subaru",
+        "suzuki",
+        "mitsubishi",
+        "daihatsu",
+        "lexus",
+        "land-cruiser",
+        "alphard",
+        "prius",
+        "aqua",
+        "hiace",
+        "jimny",
+        "nbox",
+        "manual",
+        "convertibles",
+        "diesel-4x4",
+        "grade-5",
+        "grade-6",
+        "nearly-new",
+        "eight-seaters",
+        "jdm-classics",
+        "wagons",
+        "hybrid-4wd",
+        "hatchbacks"
+      ]
+    },
+    "cy": {
+      "brand": "Carbarn Cyprus",
+      "site": "carbarn.cy",
+      "lang": "en-CY",
+      "spelling": "uk",
+      "currency": "EUR",
+      "dateStyle": "dmy",
+      "folder": "carbarn-cyprus",
+      "logo": "carbarn-cy-logo.png",
+      "ports": "Limassol or Larnaca",
+      "leadFact": "Every car we list for Cyprus is within the five-year limit, checked against its build date.",
+      "hashtags": [
+        "#CarbarnCyprus",
+        "#Cyprus",
+        "#JapaneseCars"
+      ],
+      "categories": [
+        {
+          "slug": "hybrid",
+          "label": "Hybrid",
+          "noun": "hybrids",
+          "tag": "#Hybrid",
+          "emoji": "⚡"
+        },
+        {
+          "slug": "suv",
+          "label": "SUV & Crossover",
+          "noun": "SUVs and crossovers",
+          "tag": "#SUV",
+          "emoji": "🚙"
+        },
+        {
+          "slug": "small-petrol",
+          "label": "Small Petrol",
+          "noun": "small petrol cars",
+          "tag": "#CityCar",
+          "emoji": "🚗"
+        }
+      ],
+      "country": "Cyprus",
+      "hello": "Hello Cyprus",
+      "buyers": "Cypriot buyers",
+      "portsShort": "LIMASSOL & LARNACA",
+      "fact": {
+        "title": "Within the five-year limit",
+        "body": "Every car we list for Cyprus is within the five-year limit, checked against its build date."
+      },
+      "collections": [
+        "toyota",
+        "honda",
+        "nissan",
+        "mazda",
+        "subaru",
+        "suzuki",
+        "mitsubishi",
+        "daihatsu",
+        "lexus",
+        "land-cruiser",
+        "alphard",
+        "prius",
+        "aqua",
+        "hiace",
+        "jimny",
+        "nbox",
+        "manual",
+        "diesel-4x4",
+        "grade-5",
+        "grade-6",
+        "nearly-new",
+        "eight-seaters",
+        "jdm-classics",
+        "wagons",
+        "hybrid-4wd",
+        "hatchbacks"
+      ]
+    }
+  }
+}

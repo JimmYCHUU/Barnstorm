@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Carbarn info card</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* Info cards in the same system as the lot card (approved as the "How it works" set, 1 Nov 2026):
+     real photo on top, logo top-left, Carbarn Blue panel below. Variants: cover, step, fact, gallery. */
+  .panel{padding:40px 48px 44px;display:grid;align-content:center;gap:22px;overflow:hidden;min-height:0}
+  .eyebrow{font:800 24px/1 var(--f);letter-spacing:.14em;color:var(--label);text-transform:uppercase}
+  h1{font:900 70px/1.04 var(--f);letter-spacing:-.01em}
+  h2{font:900 66px/1.04 var(--f);letter-spacing:-.01em}
+  .body{font:600 33px/1.4 var(--f);color:var(--soft)}
+  .count{position:absolute;top:36px;right:48px;z-index:3;font:800 24px/1 var(--f);letter-spacing:.12em;color:#fff;opacity:.92}
+  .ig .panel{padding:56px 56px 80px;gap:26px}
+  .ig .eyebrow{font-size:28px}
+  .ig h1{font-size:88px}
+  .ig h2{font-size:84px}
+  .ig .body{font-size:38px}
+  .gallery .photo::after{content:"";position:absolute;inset:auto 0 0;height:240px;background:linear-gradient(rgba(6,29,51,0),rgba(6,29,51,.55));z-index:2}
+</style>
+<script src="shared.js"></script>
+</head>
+<body>
+<div class="card" id="card"></div>
+<script>
+  // card = {variant, stageH, market, photo, slots:{eyebrow,title,body,tag,count}}
+  window.draw = async function (card) {
+    const s = card.slots, e = window.esc, v = card.variant || 'step';
+    document.documentElement.lang = card.market.lang || 'en';
+    const el = document.getElementById('card');
+    const full = document.documentElement.classList.contains('ig') ? 1440 : 1080;
+    const H = v === 'gallery' ? full : (card.stageH || 620);
+    el.style.gridTemplateRows = v === 'gallery' ? `${full}px` : `${H}px 1fr`;
+    el.className = `card ${v}`;
+    el.innerHTML = `
+      <div class="photo" id="stage">
+        ${card.photo.fit === 'contain' ? `<img class="back" src="${e(card.photo.src)}" alt="">` : ''}<img class="car" src="${e(card.photo.src)}" alt="">
+        <img class="logo" src="../assets/logos/${e(card.market.logo)}" alt="${e(card.market.brand)}">
+        ${s.count ? `<span class="count">${e(s.count)}</span>` : ''}
+        ${s.tag ? `<span class="pill stock"><i></i>${e(s.tag)}</span>` : ''}
+      </div>
+      ${v === 'gallery' ? '' : `<div class="panel" data-box="panel">
+        ${s.eyebrow ? `<div class="eyebrow">${e(s.eyebrow)}</div>` : ''}
+        ${v === 'cover' ? `<h1>${e(s.title)}</h1>` : `<h2>${e(s.title)}</h2>`}
+        ${s.body ? `<p class="body">${e(s.body)}</p>` : ''}
+      </div>`}`;
+    await window.finish(await window.placePhoto(document.getElementById('stage'), card.photo));
+  };
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+# Barnstorm has two packages: playwright-core and @anthropic-ai/sdk. Ask for their updates monthly.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly

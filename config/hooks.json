@@ -1,0 +1,351 @@
+{
+  "_about": "Hook and feature wording. Hooks: short (<= 22 characters), true for the car, lively. Models are checked first, then selling points, then grade/spec rules in code, then the category fallback. Edit freely; the engine re-reads this file.",
+  "models": [
+    {
+      "make": "NISSAN",
+      "model": "SKYLINE",
+      "modelCode": "BNR32",
+      "hook": "The original Godzilla"
+    },
+    {
+      "make": "NISSAN",
+      "model": "FIGARO",
+      "hook": "Roll back the roof",
+      "key": "roof"
+    },
+    {
+      "make": "HONDA",
+      "model": "BEAT",
+      "hook": "Mid-engined and manual",
+      "key": "manual"
+    },
+    {
+      "make": "HONDA",
+      "model": "S660",
+      "hook": "Mid-engined and tiny"
+    },
+    {
+      "make": "DAIHATSU",
+      "model": "COPEN",
+      "hook": "Pint-sized roadster"
+    },
+    {
+      "make": "SUZUKI",
+      "model": "CAPPUCCINO",
+      "hook": "Pint-sized roadster"
+    },
+    {
+      "make": "SUZUKI",
+      "model": "JIMNY",
+      "modelCode": "JB64W",
+      "hook": "Pocket-sized 4x4"
+    },
+    {
+      "make": "SUZUKI",
+      "model": "JIMNY",
+      "modelCode": "JB23W",
+      "hook": "Pocket-sized 4x4"
+    },
+    {
+      "make": "MITSUBISHI",
+      "model": "DELICA MINI",
+      "hook": "Delica, but mini"
+    },
+    {
+      "make": "DAIHATSU",
+      "model": "TAFT",
+      "hook": "Look up: glass roof",
+      "key": "sunroof"
+    },
+    {
+      "make": "TOYOTA",
+      "model": "CROWN",
+      "modelCode": "AZSH36W",
+      "hook": "The sporty Crown"
+    },
+    {
+      "make": "TOYOTA",
+      "model": "CROWN SPORT",
+      "hook": "The sporty Crown"
+    },
+    {
+      "make": "TOYOTA",
+      "model": "GR YARIS",
+      "hook": "Rally-bred hot hatch"
+    },
+    {
+      "make": "MITSUBISHI",
+      "model": "LANCER",
+      "modelCode": "CN9A",
+      "hook": "Evo IV, rally-bred"
+    },
+    {
+      "make": "TOYOTA",
+      "model": "ALPHARD",
+      "seatsMin": 7,
+      "hook": "First class for {seatsWord}",
+      "key": "seats"
+    },
+    {
+      "make": "TOYOTA",
+      "model": "SIENTA",
+      "seatsMin": 7,
+      "hook": "Small car, {seatsWord} seats",
+      "key": "seats"
+    },
+    {
+      "make": "MAZDA",
+      "model": "EUNOS ROADSTER",
+      "hook": "Pop-up lights, top down"
+    },
+    {
+      "make": "HONDA",
+      "model": "N BOX",
+      "hook": "Big box, small car"
+    },
+    {
+      "make": "SUZUKI",
+      "model": "HUSTLER",
+      "hook": "Small car, big grin"
+    }
+  ],
+  "points": [
+    {
+      "key": "rear-screen",
+      "re": "rear[- ]seat (display|monitor|entertainment)|flip.?down|rear monitor",
+      "hook": "Cinema in the back"
+    },
+    {
+      "key": "sunroof",
+      "re": "twin sunroof|dual sunroof|twin moon ?roof",
+      "hook": "Twin sunroofs"
+    },
+    {
+      "key": "one-owner",
+      "re": "one[- ]owner|1 owner|single owner",
+      "hook": "Just one owner"
+    },
+    {
+      "key": "doors",
+      "re": "(dual|both[- ]sides?|twin|double)[^,/]{0,12}slid",
+      "hook": "Power doors both sides"
+    },
+    {
+      "key": "kit",
+      "re": "\\b(TRD|Modellista|Mugen|Nismo|STI|Impul|Gazoo)\\b",
+      "hook": "{1} kit fitted"
+    },
+    {
+      "key": "type-r",
+      "re": "type ?r\\b",
+      "hook": "A genuine Type R",
+      "make": "HONDA"
+    },
+    {
+      "key": "recaro",
+      "re": "recaro",
+      "hook": "Sits on Recaros"
+    },
+    {
+      "key": "roof",
+      "re": "electric (open|roof|top)|active top|power roof|retractable hard ?top",
+      "hook": "Roof off at a button"
+    },
+    {
+      "key": "sunroof",
+      "re": "sunroof|moon ?roof|glass roof|panoramic roof|\\bSR\\b",
+      "hook": "Look up: glass roof"
+    },
+    {
+      "key": "hud",
+      "re": "head[- ]?up|\\bHUD\\b",
+      "hook": "Head-up display"
+    },
+    {
+      "key": "camera",
+      "re": "panoramic view|\\bPVM\\b|around view|all[- ]around|360|multi[- ]view|bird'?s[- ]eye",
+      "hook": "Sees all around"
+    },
+    {
+      "key": "heated",
+      "re": "seat heater|heated (front )?seats?",
+      "hook": "Warm seats, cold days"
+    },
+    {
+      "key": "leather",
+      "re": "leather(?! seat cover)",
+      "hook": "Leather inside"
+    },
+    {
+      "key": "doors",
+      "re": "(power|electric|auto(matic)?) slid",
+      "hook": "Push-button doors"
+    },
+    {
+      "key": "dashcam",
+      "re": "drive recorder|dash ?cam",
+      "hook": "Dashcam fitted"
+    }
+  ],
+  "categories": {
+    "kei-cars": "660cc of clever",
+    "city-hatchbacks": "Made for tight streets",
+    "hybrid": "Petrol-electric hybrid",
+    "sports": "Built for the drive",
+    "family-7-seaters": "Room for the gang",
+    "people-carriers": "Room for the gang",
+    "suv": "Ready for the weekend",
+    "4wd": "Go-anywhere 4x4",
+    "vans-campers": "Room to roam",
+    "small-petrol": "Small, simple, petrol",
+    "manual": "Proper manual gearbox",
+    "_default": "Straight from Japan"
+  },
+  "features": [
+    {
+      "key": "rear-screen",
+      "re": "(\\d+)[- ]?inch rear[- ]seat display",
+      "label": "{1}-inch rear screen"
+    },
+    {
+      "key": "rear-screen",
+      "re": "rear[- ]seat (display|monitor)|flip.?down|rear monitor",
+      "label": "rear screen"
+    },
+    {
+      "key": "sunroof",
+      "re": "twin sunroof|dual sunroof",
+      "label": "twin sunroofs"
+    },
+    {
+      "key": "sunroof",
+      "re": "sunroof|moon ?roof|glass roof|panoramic roof|\\bSR\\b",
+      "label": "sunroof"
+    },
+    {
+      "key": "camera",
+      "re": "panoramic view|\\bPVM\\b|around view|all[- ]around|360|multi[- ]view",
+      "label": "360° camera"
+    },
+    {
+      "key": "recaro",
+      "re": "recaro",
+      "label": "Recaro seats"
+    },
+    {
+      "key": "momo",
+      "re": "momo",
+      "label": "MOMO wheel"
+    },
+    {
+      "key": "bilstein",
+      "re": "bil(l)?stein",
+      "label": "Bilstein suspension"
+    },
+    {
+      "key": "wheels",
+      "re": "advan",
+      "label": "ADVAN rims"
+    },
+    {
+      "key": "wheels",
+      "re": "\\bBBS\\b",
+      "label": "BBS wheels"
+    },
+    {
+      "key": "kit",
+      "re": "\\b(TRD|Modellista|Mugen|Nismo)\\b",
+      "label": "{1} kit"
+    },
+    {
+      "key": "roof",
+      "re": "open top|soft ?top|canvas top|convertible",
+      "label": "open top"
+    },
+    {
+      "key": "turbo",
+      "re": "\\bturbo\\b",
+      "label": "turbo"
+    },
+    {
+      "key": "roof",
+      "re": "electric (open|roof|top)|active top|power roof",
+      "label": "electric roof"
+    },
+    {
+      "key": "leather",
+      "re": "leather seat cover",
+      "label": "leather seat covers"
+    },
+    {
+      "key": "leather",
+      "re": "half[- ]leather",
+      "label": "half-leather seats"
+    },
+    {
+      "key": "leather",
+      "re": "leather(?! seat cover)",
+      "label": "leather seats"
+    },
+    {
+      "key": "heated",
+      "re": "seat heater|heated (front )?seats?",
+      "label": "heated seats"
+    },
+    {
+      "key": "doors",
+      "re": "(dual|both[- ]sides?|twin|double)[^,/]{0,12}slid",
+      "label": "twin power doors"
+    },
+    {
+      "key": "doors",
+      "re": "(power|electric|auto(matic)?) slid",
+      "label": "power sliding door"
+    },
+    {
+      "key": "hud",
+      "re": "head[- ]?up|\\bHUD\\b",
+      "label": "head-up display"
+    },
+    {
+      "key": "dashcam",
+      "re": "front (and|&) rear (drive recorder|dash ?cam)",
+      "label": "front & rear dashcams"
+    },
+    {
+      "key": "dashcam",
+      "re": "drive recorder|dash ?cam",
+      "label": "dashcam"
+    },
+    {
+      "key": "led",
+      "re": "LED head",
+      "label": "LED headlights"
+    },
+    {
+      "key": "nav",
+      "re": "(navi(gation)?|\\bnav\\b).{0,40}(\\bTV\\b|full[- ]segment)|(\\bTV\\b|full[- ]segment).{0,40}navi",
+      "label": "sat nav & TV"
+    },
+    {
+      "key": "nav",
+      "re": "navi(gation)?|\\bnav\\b",
+      "label": "sat nav"
+    },
+    {
+      "key": "keyless",
+      "re": "smart key|keyless",
+      "label": "keyless entry"
+    },
+    {
+      "key": "safety",
+      "re": "safety support|safety sense|honda sensing|eyesight|pro ?pilot|safety package",
+      "label": "safety assist"
+    },
+    {
+      "key": "alloys",
+      "re": "\\bAW\\b|alumin(i)?um wheel|alloy",
+      "label": "alloy wheels"
+    }
+  ]
+}

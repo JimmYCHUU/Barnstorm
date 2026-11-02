@@ -1,0 +1,258 @@
+{
+  "_about": "Themed collections beyond each site's Popular categories. Each one is a live-auction URL the sites understand (a brand or model path, or filters like transmission=Manual). Which Pages use which themes is in markets.json ('collections'), checked against live lot counts. {thisYear} and {lastYear} are filled in when used.",
+  "themes": [
+    {
+      "key": "toyota",
+      "label": "Toyota",
+      "noun": "Toyotas",
+      "path": "toyota",
+      "tag": "#Toyota",
+      "emoji": "🇯🇵",
+      "hook": "Japan-spec Toyota"
+    },
+    {
+      "key": "honda",
+      "label": "Honda",
+      "noun": "Hondas",
+      "path": "honda",
+      "tag": "#Honda",
+      "emoji": "🇯🇵",
+      "hook": "Japan-spec Honda"
+    },
+    {
+      "key": "nissan",
+      "label": "Nissan",
+      "noun": "Nissans",
+      "path": "nissan",
+      "tag": "#Nissan",
+      "emoji": "🇯🇵",
+      "hook": "Japan-spec Nissan"
+    },
+    {
+      "key": "mazda",
+      "label": "Mazda",
+      "noun": "Mazdas",
+      "path": "mazda",
+      "tag": "#Mazda",
+      "emoji": "🇯🇵",
+      "hook": "Japan-spec Mazda"
+    },
+    {
+      "key": "subaru",
+      "label": "Subaru",
+      "noun": "Subarus",
+      "path": "subaru",
+      "tag": "#Subaru",
+      "emoji": "🇯🇵",
+      "hook": "Japan-spec Subaru"
+    },
+    {
+      "key": "suzuki",
+      "label": "Suzuki",
+      "noun": "Suzukis",
+      "path": "suzuki",
+      "tag": "#Suzuki",
+      "emoji": "🇯🇵",
+      "hook": "Japan-spec Suzuki"
+    },
+    {
+      "key": "mitsubishi",
+      "label": "Mitsubishi",
+      "noun": "Mitsubishis",
+      "path": "mitsubishi",
+      "tag": "#Mitsubishi",
+      "emoji": "🇯🇵",
+      "hook": "Japan-spec Mitsubishi"
+    },
+    {
+      "key": "daihatsu",
+      "label": "Daihatsu",
+      "noun": "Daihatsus",
+      "path": "daihatsu",
+      "tag": "#Daihatsu",
+      "emoji": "🇯🇵",
+      "hook": "Japan-spec Daihatsu"
+    },
+    {
+      "key": "lexus",
+      "label": "Lexus",
+      "noun": "Lexus cars",
+      "path": "lexus",
+      "tag": "#Lexus",
+      "emoji": "🇯🇵",
+      "hook": "Japan-spec Lexus"
+    },
+    {
+      "key": "land-cruiser",
+      "label": "Land Cruiser",
+      "noun": "Toyota Land Cruisers",
+      "path": "toyota/land-cruiser",
+      "tag": "#LandCruiser",
+      "emoji": "🏔️",
+      "hook": "Land Cruiser line-up"
+    },
+    {
+      "key": "alphard",
+      "label": "Alphard",
+      "noun": "Toyota Alphards",
+      "path": "toyota/alphard",
+      "tag": "#Alphard",
+      "emoji": "🚐",
+      "hook": "First class for seven"
+    },
+    {
+      "key": "prius",
+      "label": "Prius",
+      "noun": "Toyota Priuses",
+      "path": "toyota/prius",
+      "tag": "#Prius",
+      "emoji": "⚡",
+      "hook": "The original hybrid"
+    },
+    {
+      "key": "aqua",
+      "label": "Aqua",
+      "noun": "Toyota Aquas",
+      "path": "toyota/aqua",
+      "tag": "#ToyotaAqua",
+      "emoji": "⚡",
+      "hook": "Small, smart hybrid"
+    },
+    {
+      "key": "hiace",
+      "label": "Hiace",
+      "noun": "Toyota Hiaces",
+      "path": "toyota/hiace",
+      "tag": "#Hiace",
+      "emoji": "🚐",
+      "hook": "The do-anything van"
+    },
+    {
+      "key": "jimny",
+      "label": "Jimny",
+      "noun": "Suzuki Jimnys",
+      "path": "suzuki/jimny",
+      "tag": "#SuzukiJimny",
+      "emoji": "🏔️",
+      "hook": "Pocket-sized 4x4"
+    },
+    {
+      "key": "nbox",
+      "label": "N-Box",
+      "noun": "Honda N-Boxes",
+      "path": "honda/nbox",
+      "tag": "#HondaNBox",
+      "emoji": "📦",
+      "hook": "Big box, small car"
+    },
+    {
+      "key": "manual",
+      "label": "Manual gearbox",
+      "noun": "manual-gearbox cars",
+      "query": "transmission=Manual",
+      "tag": "#SaveTheManuals",
+      "emoji": "🕹️",
+      "hook": "Three pedals, please"
+    },
+    {
+      "key": "convertibles",
+      "label": "Convertibles",
+      "noun": "convertibles",
+      "query": "bodyType=Convertible",
+      "tag": "#Convertible",
+      "emoji": "☀️",
+      "hook": "Roof optional"
+    },
+    {
+      "key": "diesel-4x4",
+      "label": "Diesel 4x4",
+      "noun": "diesel 4x4s",
+      "query": "fuelType=Diesel&driveType=4WD",
+      "tag": "#Diesel4x4",
+      "emoji": "🏔️",
+      "hook": "Diesel 4x4 muscle"
+    },
+    {
+      "key": "grade-5",
+      "label": "Grade 5",
+      "noun": "grade 5 cars",
+      "query": "grade=5",
+      "tag": "#AuctionGrade5",
+      "emoji": "⭐",
+      "hook": "Top-condition picks"
+    },
+    {
+      "key": "grade-6",
+      "label": "Grade 6",
+      "noun": "grade 6 cars",
+      "query": "grade=6",
+      "tag": "#AuctionGrade6",
+      "emoji": "⭐",
+      "hook": "Top marks: grade 6"
+    },
+    {
+      "key": "nearly-new",
+      "label": "Nearly new",
+      "noun": "cars from {lastYear} on",
+      "query": "yearFrom={lastYear}",
+      "tag": "#NearlyNew",
+      "emoji": "✨",
+      "hook": "Barely run in"
+    },
+    {
+      "key": "eight-seaters",
+      "label": "8-seaters",
+      "noun": "8-seaters",
+      "query": "seats=8",
+      "tag": "#8Seater",
+      "emoji": "👨‍👩‍👧‍👦",
+      "hook": "Room for eight"
+    },
+    {
+      "key": "jdm-classics",
+      "label": "JDM classics",
+      "noun": "JDM classics from 1999 and earlier",
+      "query": "yearTo=1999",
+      "tag": "#JDMClassic",
+      "emoji": "🏁",
+      "hook": "A JDM classic"
+    },
+    {
+      "key": "wagons",
+      "label": "Wagons",
+      "noun": "estate cars",
+      "query": "bodyType=Wagon",
+      "tag": "#Estate",
+      "emoji": "🧳",
+      "hook": "Room for the luggage"
+    },
+    {
+      "key": "hybrid-4wd",
+      "label": "Hybrid 4WD",
+      "noun": "hybrid 4WDs",
+      "query": "fuelType=Hybrid&driveType=4WD",
+      "tag": "#HybridAWD",
+      "emoji": "⚡",
+      "hook": "Hybrid with grip"
+    },
+    {
+      "key": "manual-sports",
+      "label": "Manual sports",
+      "noun": "manual sports cars",
+      "path": "sports",
+      "query": "transmission=Manual",
+      "tag": "#JDM",
+      "emoji": "🏁",
+      "hook": "Three pedals, all fun"
+    },
+    {
+      "key": "hatchbacks",
+      "label": "Hatchbacks",
+      "noun": "hatchbacks",
+      "query": "bodyType=Hatchback",
+      "tag": "#Hatchback",
+      "emoji": "🚗",
+      "hook": "Made for tight streets"
+    }
+  ]
+}

@@ -1,0 +1,543 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-02T03:16:02.559Z",
+  "title": "Design System: Barnstorm",
+  "extensions": {
+    "colorMeta": {
+      "carbarn-blue": {
+        "role": "primary",
+        "displayName": "Carbarn Blue",
+        "canonical": "#0473EA",
+        "tonalRamp": [
+          "#042549",
+          "#07407E",
+          "#095BB3",
+          "#0C77E9",
+          "#3D96F5",
+          "#77B5F8",
+          "#B1D5FB",
+          "#E7F2FE"
+        ]
+      },
+      "carbarn-blue-deep": {
+        "role": "primary",
+        "displayName": "Carbarn Blue Deep",
+        "canonical": "#0360C5",
+        "tonalRamp": [
+          "#042549",
+          "#07407E",
+          "#095BB3",
+          "#0C76E9",
+          "#3D95F5",
+          "#77B5F8",
+          "#B1D5FB",
+          "#E7F2FE"
+        ]
+      },
+      "blue-wash": {
+        "role": "primary",
+        "displayName": "Blue Wash",
+        "canonical": "#E8F1FE",
+        "tonalRamp": [
+          "#042049",
+          "#07377E",
+          "#094FB3",
+          "#0C66E9",
+          "#3D88F5",
+          "#77ACF8",
+          "#B1D0FB",
+          "#E7F0FE"
+        ]
+      },
+      "blue-line": {
+        "role": "primary",
+        "displayName": "Blue Line",
+        "canonical": "#B9D5FA",
+        "tonalRamp": [
+          "#052247",
+          "#093A7C",
+          "#0D53B0",
+          "#106CE4",
+          "#418DF1",
+          "#7AAFF5",
+          "#B3D1FA",
+          "#E7F1FD"
+        ]
+      },
+      "harbour-navy": {
+        "role": "secondary",
+        "displayName": "Harbour Navy",
+        "canonical": "#061D33",
+        "tonalRamp": [
+          "#082744",
+          "#0E4377",
+          "#1460A9",
+          "#1A7DDB",
+          "#489BEA",
+          "#7FB9F0",
+          "#B6D7F6",
+          "#E8F2FC"
+        ]
+      },
+      "harbour-navy-raised": {
+        "role": "secondary",
+        "displayName": "Harbour Navy Raised",
+        "canonical": "#0B2A49",
+        "tonalRamp": [
+          "#0A2642",
+          "#114273",
+          "#195EA4",
+          "#207AD5",
+          "#4E99E4",
+          "#83B8EC",
+          "#B8D6F4",
+          "#E9F2FC"
+        ]
+      },
+      "rail-ink": {
+        "role": "secondary",
+        "displayName": "Rail Ink",
+        "canonical": "#B7C8DE",
+        "tonalRamp": [
+          "#182434",
+          "#2A3F5B",
+          "#3B5A81",
+          "#4D75A8",
+          "#7394BF",
+          "#9DB4D2",
+          "#C7D4E5",
+          "#EEF2F7"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#0E1B2C",
+        "tonalRamp": [
+          "#12243A",
+          "#203E65",
+          "#2E588F",
+          "#3B72BA",
+          "#6492CE",
+          "#93B3DD",
+          "#C1D3EB",
+          "#ECF1F9"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Ink Soft",
+        "canonical": "#34465C",
+        "tonalRamp": [
+          "#1C2531",
+          "#304055",
+          "#445C79",
+          "#58779C",
+          "#7D96B5",
+          "#A4B6CB",
+          "#CBD5E2",
+          "#EFF2F6"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "#5E6E83",
+        "tonalRamp": [
+          "#20252D",
+          "#37414D",
+          "#4F5C6E",
+          "#66788F",
+          "#8897AA",
+          "#ACB6C3",
+          "#CFD5DD",
+          "#F0F2F4"
+        ]
+      },
+      "faint": {
+        "role": "neutral",
+        "displayName": "Faint",
+        "canonical": "#8A98AA",
+        "tonalRamp": [
+          "#20252C",
+          "#38414D",
+          "#4F5C6D",
+          "#67788E",
+          "#8997A9",
+          "#ACB6C3",
+          "#D0D5DD",
+          "#F0F2F4"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "canonical": "#DCE3EC",
+        "tonalRamp": [
+          "#1B2532",
+          "#2F4056",
+          "#425B7A",
+          "#56769F",
+          "#7B95B7",
+          "#A2B5CD",
+          "#CAD5E2",
+          "#EEF2F6"
+        ]
+      },
+      "line-soft": {
+        "role": "neutral",
+        "displayName": "Line Soft",
+        "canonical": "#E9EEF4",
+        "tonalRamp": [
+          "#192533",
+          "#2C4058",
+          "#3F5B7E",
+          "#5277A3",
+          "#7796BB",
+          "#A0B5CF",
+          "#C9D5E4",
+          "#EEF2F7"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#F3F6FA",
+        "tonalRamp": [
+          "#172436",
+          "#273E5E",
+          "#385985",
+          "#4873AD",
+          "#6F93C3",
+          "#9AB3D5",
+          "#C5D4E7",
+          "#EDF2F8"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "#FFFFFF",
+        "tonalRamp": [
+          "#262626",
+          "#424242",
+          "#5E5E5E",
+          "#7A7A7A",
+          "#999999",
+          "#B8B8B8",
+          "#D6D6D6",
+          "#F2F2F2"
+        ]
+      },
+      "sunk": {
+        "role": "neutral",
+        "displayName": "Sunk",
+        "canonical": "#F7F9FC",
+        "tonalRamp": [
+          "#152338",
+          "#243C60",
+          "#335689",
+          "#436FB2",
+          "#6B90C7",
+          "#97B1D8",
+          "#C4D2E9",
+          "#ECF1F8"
+        ]
+      },
+      "signal-red": {
+        "role": "status",
+        "displayName": "Signal Red",
+        "canonical": "#C2362B",
+        "tonalRamp": [
+          "#3F110E",
+          "#6D1E18",
+          "#9A2B22",
+          "#C8382C",
+          "#DA6158",
+          "#E5918A",
+          "#F0C0BC",
+          "#FAEBEA"
+        ]
+      },
+      "red-wash": {
+        "role": "status",
+        "displayName": "Red Wash",
+        "canonical": "#FCEDEB",
+        "tonalRamp": [
+          "#43110A",
+          "#731D11",
+          "#A42919",
+          "#D53520",
+          "#E45F4E",
+          "#EC8F83",
+          "#F4BFB8",
+          "#FCEBE9"
+        ]
+      },
+      "amber": {
+        "role": "status",
+        "displayName": "Amber",
+        "canonical": "#8F5B00",
+        "tonalRamp": [
+          "#493004",
+          "#7E5307",
+          "#B37609",
+          "#E9980C",
+          "#F5B23D",
+          "#F8C977",
+          "#FBE0B1",
+          "#FEF5E7"
+        ]
+      },
+      "amber-wash": {
+        "role": "status",
+        "displayName": "Amber Wash",
+        "canonical": "#FFF3D6",
+        "tonalRamp": [
+          "#493504",
+          "#7E5B07",
+          "#B38209",
+          "#E9A80C",
+          "#F5BF3D",
+          "#F8D277",
+          "#FBE5B1",
+          "#FEF7E7"
+        ]
+      },
+      "go-green": {
+        "role": "status",
+        "displayName": "Go Green",
+        "canonical": "#11764A",
+        "tonalRamp": [
+          "#0A432A",
+          "#117449",
+          "#18A567",
+          "#1FD686",
+          "#4DE5A3",
+          "#82EDBE",
+          "#B8F5DA",
+          "#E9FCF3"
+        ]
+      },
+      "green-wash": {
+        "role": "status",
+        "displayName": "Green Wash",
+        "canonical": "#E4F4EB",
+        "tonalRamp": [
+          "#163624",
+          "#265E3F",
+          "#378659",
+          "#47AE74",
+          "#6EC494",
+          "#9AD6B4",
+          "#C5E7D4",
+          "#EDF8F2"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "The BARNSTORM mark and the approval stamp only (Carbarn brand face)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "One page title per screen."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Panel and section titles; 14px inside the inspector and feed sidebar."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Reading text, inputs and tables, with tabular figures."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Form labels, chips, table headers and dates."
+      }
+    },
+    "shadows": [
+      {
+        "name": "lift",
+        "value": "0 1px 2px rgba(6,29,51,.06), 0 10px 28px rgba(6,29,51,.10)",
+        "purpose": "The one elevation: post frames, dialogs, toasts, hovered post cards."
+      },
+      {
+        "name": "seal",
+        "value": "0 1px 3px rgba(6,29,51,.18)",
+        "purpose": "Status seals sitting on pictures."
+      },
+      {
+        "name": "focus-halo",
+        "value": "0 0 0 3px #E8F1FE",
+        "purpose": "Focused inputs and the selected Page chip."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(.2,.8,.2,1)",
+        "purpose": "Every transition."
+      },
+      {
+        "name": "duration-state",
+        "value": "150ms",
+        "purpose": "Hover, focus and press on controls."
+      },
+      {
+        "name": "duration-reveal",
+        "value": "180ms",
+        "purpose": "Switches, stamp fade, Build reveal on planned tiles."
+      },
+      {
+        "name": "stamp-drop",
+        "value": "260ms scale 1.6 → 1 at −12°",
+        "purpose": "The approval stamp, once, at the moment of approval."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide",
+        "value": "1280px",
+        "purpose": "Feed sidebar narrows to 260px; inspector to 360px."
+      },
+      {
+        "name": "compact",
+        "value": "1060px",
+        "purpose": "Rail collapses to 72px icons; studio becomes preview plus 340px inspector."
+      },
+      {
+        "name": "stack",
+        "value": "900px",
+        "purpose": "Everything stacks."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one main action of a view: Build, Approve, Save.",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M14.5 5.5 18.5 9.5 9 19l-4.5 1 1-4.5 9-10Z\"/><path d=\"M13 7l4 4\"/><path d=\"M19 3v3M17.5 4.5h3\"/></svg>Build tomorrow</button>",
+      "css": ".ds-btn-primary{font:700 13px/1 Manrope,\"Segoe UI\",system-ui,sans-serif;display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:8px;cursor:pointer;transition:background .15s cubic-bezier(.2,.8,.2,1),border-color .15s cubic-bezier(.2,.8,.2,1),transform .1s cubic-bezier(.2,.8,.2,1);background:#0473EA;border:1px solid #0473EA;color:#fff}.ds-btn-primary:hover{background:#0360C5;border-color:#0360C5}.ds-btn-primary:active{transform:translateY(1px)}.ds-btn-primary:focus-visible{outline:2px solid #0473EA;outline-offset:2px}"
+    },
+    {
+      "name": "Default Button",
+      "kind": "button",
+      "refersTo": "button-default",
+      "description": "Every secondary action, including Build inside the Plan grid.",
+      "html": "<button class=\"ds-btn\">Re-check</button>",
+      "css": ".ds-btn{font:700 13px/1 Manrope,\"Segoe UI\",system-ui,sans-serif;display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:8px;cursor:pointer;transition:background .15s cubic-bezier(.2,.8,.2,1),border-color .15s cubic-bezier(.2,.8,.2,1),transform .1s cubic-bezier(.2,.8,.2,1);background:#fff;border:1px solid #DCE3EC;color:#0E1B2C}.ds-btn:hover{background:#F7F9FC;border-color:#C3CEDB}.ds-btn:active{transform:translateY(1px)}.ds-btn:focus-visible{outline:2px solid #0473EA;outline-offset:2px}"
+    },
+    {
+      "name": "Blocked Approve",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Approve while red checks are open: readable, muted, points to the checks.",
+      "html": "<button class=\"ds-btn-blocked\" aria-disabled=\"true\">Approve · 4 to fix</button>",
+      "css": ".ds-btn-blocked{font:700 13px/1 Manrope,\"Segoe UI\",system-ui,sans-serif;display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:8px;cursor:pointer;transition:background .15s cubic-bezier(.2,.8,.2,1),border-color .15s cubic-bezier(.2,.8,.2,1),transform .1s cubic-bezier(.2,.8,.2,1);background:#F7F9FC;border:1px solid #DCE3EC;color:#34465C;cursor:not-allowed}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "All form fields; the focus halo is the only glow in the system.",
+      "html": "<label class=\"ds-label\">Hook (big line)<input class=\"ds-input\" value=\"Pocket-sized 4x4\"></label>",
+      "css": ".ds-label{display:grid;gap:6px;font:700 12px/1.3 Manrope,sans-serif;color:#34465C}.ds-input{font:500 14px/1.45 Manrope,sans-serif;color:#0E1B2C;border:1px solid #DCE3EC;border-radius:8px;padding:8px 10px;background:#fff;transition:border-color .15s,box-shadow .15s}.ds-input:focus{outline:none;border-color:#0473EA;box-shadow:0 0 0 3px #E8F1FE}"
+    },
+    {
+      "name": "Rail Item",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "Navigation in the navy rail; active fills with Carbarn Blue.",
+      "html": "<nav class=\"ds-rail\"><a class=\"ds-rail-a on\" href=\"#\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3.5\" y=\"3.5\" width=\"7\" height=\"8\" rx=\"1.5\"/><rect x=\"13.5\" y=\"3.5\" width=\"7\" height=\"8\" rx=\"1.5\"/><rect x=\"3.5\" y=\"14.5\" width=\"7\" height=\"6\" rx=\"1.5\"/><rect x=\"13.5\" y=\"14.5\" width=\"7\" height=\"6\" rx=\"1.5\"/></svg><span>Feeds</span></a><a class=\"ds-rail-a\" href=\"#\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3.5\" y=\"3.5\" width=\"7\" height=\"8\" rx=\"1.5\"/><rect x=\"13.5\" y=\"3.5\" width=\"7\" height=\"8\" rx=\"1.5\"/><rect x=\"3.5\" y=\"14.5\" width=\"7\" height=\"6\" rx=\"1.5\"/><rect x=\"13.5\" y=\"14.5\" width=\"7\" height=\"6\" rx=\"1.5\"/></svg><span>Posts</span><b>4</b></a></nav>",
+      "css": ".ds-rail{background:#061D33;padding:12px;display:grid;gap:2px;width:224px}.ds-rail-a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;color:#B7C8DE;text-decoration:none;font:700 14px/1.2 Manrope,sans-serif;transition:background .15s,color .15s}.ds-rail-a:hover{background:#0B2A49;color:#fff}.ds-rail-a.on{background:#0473EA;color:#fff}.ds-rail-a b{margin-left:auto;font-size:12px;background:rgba(255,255,255,.14);color:#fff;border-radius:999px;padding:1px 8px}"
+    },
+    {
+      "name": "Status Chip",
+      "kind": "chip",
+      "refersTo": "status-chip",
+      "description": "The one status vocabulary, as a pill with a dot.",
+      "html": "<span class=\"ds-chip ds-draft\"><i></i>To stamp</span> <span class=\"ds-chip ds-fix\"><i></i>Needs fixes</span> <span class=\"ds-chip ds-ok\"><i></i>Approved</span>",
+      "css": ".ds-chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:999px;font:700 12px/1 Manrope,sans-serif;white-space:nowrap}.ds-chip i{width:7px;height:7px;border-radius:50%;background:currentColor}.ds-draft{background:#FFF3D6;color:#8F5B00}.ds-fix{background:#FCEDEB;color:#C2362B}.ds-ok{background:#E4F4EB;color:#11764A}"
+    },
+    {
+      "name": "Seal Mark",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "The 44px round mark on approved feed tiles, rotated like a stamp.",
+      "html": "<span class=\"ds-sealmark\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m5 12.5 4.5 4.5L19 7.5\"/></svg></span>",
+      "css": ".ds-sealmark{width:44px;height:44px;border-radius:50%;display:inline-grid;place-items:center;background:rgba(255,255,255,.95);color:#0473EA;box-shadow:inset 0 0 0 2.5px #0473EA,0 1px 3px rgba(6,29,51,.18);transform:rotate(-12deg)}"
+    },
+    {
+      "name": "Approval Stamp",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Signature: drops onto the preview at the moment of approval, then stays.",
+      "html": "<div class=\"ds-stamp\"><div>APPROVED<br>Tue 3 Nov</div></div>",
+      "css": ".ds-stamp div{width:150px;height:150px;border-radius:50%;border:5px solid #0473EA;color:#0473EA;display:grid;place-items:center;text-align:center;font:900 15px/1.15 Montserrat,Manrope,sans-serif;letter-spacing:.06em;background:rgba(255,255,255,.88);transform:rotate(-12deg);box-shadow:0 0 0 6px rgba(255,255,255,.6);animation:ds-stamp .26s cubic-bezier(.2,.8,.2,1) both}@keyframes ds-stamp{from{transform:rotate(-12deg) scale(1.6);opacity:0}to{transform:rotate(-12deg) scale(1);opacity:1}}@media (prefers-reduced-motion:reduce){.ds-stamp div{animation:none}}"
+    },
+    {
+      "name": "Planned Post Tile",
+      "kind": "card",
+      "refersTo": null,
+      "description": "A faded preview of the card a planned slot will become, in the 3:4 feed grid.",
+      "html": "<div class=\"ds-ghost\"><div class=\"ds-ph\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3.5\" y=\"3.5\" width=\"7\" height=\"8\" rx=\"1.5\"/><rect x=\"13.5\" y=\"3.5\" width=\"7\" height=\"8\" rx=\"1.5\"/><rect x=\"3.5\" y=\"14.5\" width=\"7\" height=\"6\" rx=\"1.5\"/><rect x=\"13.5\" y=\"14.5\" width=\"7\" height=\"6\" rx=\"1.5\"/></svg><button><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M14.5 5.5 18.5 9.5 9 19l-4.5 1 1-4.5 9-10Z\"/><path d=\"M13 7l4 4\"/><path d=\"M19 3v3M17.5 4.5h3\"/></svg>Build</button></div><div class=\"ds-band\"><b>Land Cruiser</b><small>Live lots · Fri 6 Nov</small></div></div>",
+      "css": ".ds-ghost{width:200px;aspect-ratio:3/4;display:grid;grid-template-rows:62% 1fr;overflow:hidden;background:#fff}.ds-ph{position:relative;display:grid;place-items:center;background:#E6ECF3;color:#B3C0CF}.ds-ph button{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);opacity:0;display:inline-flex;gap:6px;align-items:center;height:30px;padding:0 10px;border-radius:8px;border:1px solid #DCE3EC;background:#fff;color:#0E1B2C;font:700 12px/1 Manrope,sans-serif;transition:opacity .18s}.ds-ghost:hover .ds-ph button,.ds-ghost:focus-within .ds-ph button{opacity:1}.ds-band{display:grid;align-content:start;gap:3px;padding:12px;background:#D7E7FC;color:#0A3F7E}.ds-band b{font:800 15px/1.2 Manrope,sans-serif}.ds-band small{font:700 12px/1.3 Manrope,sans-serif;opacity:.8}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Proof Desk",
+    "overview": "Barnstorm is a printer's proof desk for social posts. Every Page is laid out as the Instagram profile it will become, every post is checked inside the real Facebook or Instagram frame it will appear in, and nothing leaves the desk without a stamp. The world is Carbarn's own: a deep harbour-navy rail, a cool paper canvas, white working surfaces, and Carbarn Blue held back for the moments that mean \"go\".\n\nIt is a working tool for one person, used about fifteen minutes a day at a desktop. Density is moderate: the posts themselves (the car pictures) are the loudest thing on every screen, and the interface stays quiet around them. Expression lives in precise details, the stamp, the status seals, and the authored icon set, never in decoration.",
+    "keyCharacteristics": [
+      "Navy rail and paper canvas; white surfaces for work.",
+      "Carbarn Blue only for action, selection and approval.",
+      "Posts are always shown at their real ratio: Instagram 3:4, Facebook 1:1.",
+      "One status vocabulary with one colour per state, everywhere.",
+      "One lift shadow for things that float; everything else is flat with hairlines."
+    ],
+    "rules": [
+      {
+        "name": "The Blue Means Go Rule",
+        "body": "Carbarn Blue marks only what to press, what is selected, and what is stamped. Never use it for decoration, headings or large fills.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Vocabulary Rule",
+        "body": "Post state is always one of Planned, To stamp, Needs fixes, Approved, Exported, Published or Posted by hand, with the same colour on every screen, as a chip in lists and as a seal on pictures.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Numbers Rule",
+        "body": "Figures are tabular everywhere (counts, dates, mileage), so columns and badges never jitter.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Eyebrow Rule",
+        "body": "Headings stand alone. No small uppercase kicker sits above a heading.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Lift Rule",
+        "body": "There is exactly one elevation. If something needs more emphasis, change its colour or position, not its shadow.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do show every post at its real ratio (Instagram 3:4, Facebook 1:1) and inside its native frame when it is being judged.",
+      "Do keep Carbarn Blue (#0473EA) for action, selection and the stamp only.",
+      "Do use the one status vocabulary and its colours for every state, on every screen.",
+      "Do use the authored 24px line icons (1.75px stroke, round caps) with every primary action.",
+      "Do keep motion between 150 and 260ms on the standard ease (cubic-bezier(.2,.8,.2,1)), and honour reduced motion."
+    ],
+    "donts": [
+      "Don't put a small uppercase eyebrow or kicker above headings.",
+      "Don't add hero-metric cards or decorative charts; counts live inline in the profile header.",
+      "Don't add a second shadow level or glassy or blurred surfaces.",
+      "Don't use Montserrat beyond the wordmark and the stamp.",
+      "Don't show a post cropped to a ratio it will not be published in."
+    ]
+  }
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "market": "ie",
+    "date": "2026-11-02",
+    "topic": "live-lots",
+    "params": {
+      "category": "family-7-seaters"
+    },
+    "lotIds": [
+      "2692085",
+      "2700187",
+      "2712623",
+      "2703495"
+    ],
+    "note": "made by hand",
+    "folder": "carbarn-ireland/2026-11-family-7-8-seaters"
+  },
+  {
+    "market": "us",
+    "date": "2026-11-02",
+    "topic": "live-lots",
+    "params": {
+      "category": "sports"
+    },
+    "lotIds": [
+      "2699827",
+      "2699635",
+      "2714200",
+      "2694892"
+    ],
+    "note": "made by hand",
+    "folder": "carbarn-united-states/2026-11-jdm-sports-25-plus"
+  },
+  {
+    "market": "uk",
+    "date": "2026-11-02",
+    "topic": "live-lots",
+    "params": {
+      "category": "kei-cars"
+    },
+    "lotIds": [
+      "2723320",
+      "2723396",
+      "2715114",
+      "2693196"
+    ],
+    "note": "made by hand",
+    "folder": "carbarn-united-kingdom/2026-11-kei-cars"
+  },
+  {
+    "market": "mt",
+    "date": "2026-11-02",
+    "topic": "live-lots",
+    "params": {
+      "category": "city-hatchbacks"
+    },
+    "lotIds": [
+      "2717313",
+      "2689884",
+      "2668234",
+      "2718697"
+    ],
+    "note": "made by hand",
+    "folder": "carbarn-malta/2026-11-city-hatchbacks"
+  },
+  {
+    "market": "cy",
+    "date": "2026-11-02",
+    "topic": "live-lots",
+    "params": {
+      "category": "hybrid"
+    },
+    "lotIds": [
+      "2722424",
+      "2720526",
+      "2715158",
+      "2701585"
+    ],
+    "note": "made by hand",
+    "folder": "carbarn-cyprus/2026-11-hybrids"
+  }
+]

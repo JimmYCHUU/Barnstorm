@@ -1,0 +1,28 @@
+# Secrets. Barnstorm keeps Page tokens and the Claude key in
+# %APPDATA%\CarbarnContentEngine\secrets.json, never in this folder; these are a second fence.
+.env
+.env.*
+secrets.json
+
+# This computer, not the project
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.bak
+*.tmp
+.claude/settings.local.json
+.playwright-mcp/
+
+node_modules/
+
+# The real posts, their versions and pictures, the plans, the activity log and the photo cache:
+# they stay on this computer. A fresh copy starts from config/seed-history.json.
+data/
+
+# Design review screenshots of real posts
+.impeccable/review/
+
+*.log

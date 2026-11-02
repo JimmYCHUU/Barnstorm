@@ -1,0 +1,39 @@
+{
+  "name": "barnstorm",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Barnstorm, Carbarn's social media agent: plans, builds, checks and publishes on-brand Facebook and Instagram posts for the five export Pages.",
+  "license": "UNLICENSED",
+  "author": "JimmYCHUU",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JimmYCHUU/Barnstorm.git"
+  },
+  "homepage": "https://github.com/JimmYCHUU/Barnstorm#readme",
+  "bugs": {
+    "url": "https://github.com/JimmYCHUU/Barnstorm/issues"
+  },
+  "keywords": [
+    "social-media",
+    "content-planning",
+    "facebook",
+    "instagram",
+    "car-dealership",
+    "human-in-the-loop",
+    "playwright",
+    "windows"
+  ],
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test \"test/*.test.js\"",
+    "check-private": "node scripts/check-private.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.135.0",
+    "playwright-core": "1.55.0"
+  }
+}

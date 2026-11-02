@@ -1,0 +1,8 @@
+{
+  "_about": "Weekly pattern per Page, sized for a 1-2 person team (3 posts per Page per week). Day keys: mon..sun. Topics: live-lots, lot-spotlight, stock-spotlight, how-it-works, market-fact.",
+  "pattern": { "mon": "live-lots", "wed": "stock-spotlight", "fri": "live-lots" },
+  "factEveryWeeks": 3,
+  "factDay": "fri",
+  "categoryCooldownDays": 21,
+  "perMarket": {}
+}

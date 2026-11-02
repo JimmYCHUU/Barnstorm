@@ -1,0 +1,43 @@
+{
+  "_about": "Copy rules from the Facebook About kit (31 Oct 2026) and Jim's corrections (1 Nov 2026). 'never' phrases block approval; 'replace' terms block approval with a suggested fix; spelling slips are warnings. The engine also adds phrases you accept on the Learn page.",
+  "never": [
+    { "phrase": "this week", "why": "Auctions update daily: use per-day counts or 'right now'." },
+    { "phrase": "best", "why": "Kit: no superlatives." },
+    { "phrase": "premium", "why": "Kit: never use." },
+    { "phrase": "luxury", "why": "Kit: never use." },
+    { "phrase": "high-quality", "why": "Kit: never use." },
+    { "phrase": "trusted", "why": "Kit: never use." },
+    { "phrase": "No. 1", "why": "Kit: never use." },
+    { "phrase": "leading", "why": "Kit: never use." },
+    { "phrase": "cheapest", "why": "Kit: never use." },
+    { "phrase": "risk-free", "why": "Kit: the deposit is real." },
+    { "phrase": "pay nothing", "why": "Kit: there is a refundable card deposit." },
+    { "phrase": "only pay if you win", "why": "Kit: say 'refundable card deposit' and 'invoiced only if your bid wins'." },
+    { "phrase": "no hidden costs", "why": "Kit: costs outside the estimate are not confirmed." },
+    { "phrase": "all-inclusive", "why": "Kit: duty, VAT and registration are paid locally." },
+    { "phrase": "landed price", "why": "Kit: it is an estimate; say 'estimated landed cost'." },
+    { "phrase": "on-the-road", "why": "Kit: never use." },
+    { "phrase": "drive-away", "why": "Kit: never use." },
+    { "phrase": "duty-free", "why": "Kit: never use." },
+    { "phrase": "0% duty", "why": "Kit: never use." },
+    { "phrase": "guaranteed", "why": "Kit: eligibility and registration are never guaranteed." },
+    { "phrase": "road-legal", "why": "Kit: never use." },
+    { "phrase": "door-to-door", "why": "Kit: Carbarn's job ends at the ship." },
+    { "phrase": "delivered to your door", "why": "Kit: Carbarn's job ends at the ship." },
+    { "phrase": "home delivery", "why": "Kit: Carbarn's job ends at the ship." },
+    { "phrase": "we clear", "why": "Kit: the buyer or their agent clears the car." },
+    { "phrase": "clear customs", "why": "Kit: the buyer or their agent clears the car." },
+    { "phrase": "we import", "why": "Kit: the buyer is the importer." },
+    { "phrase": "imported by us", "why": "Kit: the buyer is the importer." },
+    { "phrase": "directly imported", "why": "Kit: the buyer is the importer." },
+    { "phrase": "Carbarn Global", "why": "Kit: say Carbarn LLC, Yokohama." }
+  ],
+  "perMarket": {
+    "ie": { "replace": { "people movers": "people carriers", "people mover": "people carrier" }, "never": ["JEVIC"] },
+    "uk": { "never": ["JEVIC"] },
+    "us": { "never": ["JEVIC"] },
+    "mt": { "never": ["COF"] },
+    "cy": { "never": ["JEVIC"] }
+  },
+  "spellingPairs": [["favourites", "favorites"], ["favourite", "favorite"], ["colour", "color"], ["tyres", "tires"], ["tyre", "tire"], ["neighbour", "neighbor"], ["centre", "center"], ["organise", "organize"], ["metres", "meters"]]
+}
