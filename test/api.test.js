@@ -217,6 +217,21 @@ test('api: a Page feed lists planned slots, built posts and hand-made posts, new
   assert.ok(r.body.rotation.next.length >= 3);
 });
 
+test('api: a hand-made post in the feed carries its pictures and Caption A from caption.md', async () => {
+  const { dataDir, writeJson } = await import('../lib/store.js');
+  const dir = path.join(process.env.CE_POSTS, 'carbarn-united-kingdom', 'hand');
+  fs.mkdirSync(path.join(dir, 'instagram'), { recursive: true });
+  for (const f of ['2-b.png', '1-a.png']) fs.writeFileSync(path.join(dir, 'instagram', f), 'png');
+  fs.writeFileSync(path.join(dir, 'caption.md'), '# Title\n\nUpload in this order.\n\n## Caption A\n> 3,236 kei cars on Tuesday 🇯🇵\n>\n> 👉 carbarn.uk/live-auction/kei-cars\n\n## Caption B\n> Short one\n');
+  writeJson(path.join(dataDir(), 'history.json'), [{ market: 'uk', date: '2026-10-21', topic: 'live-lots', params: { category: 'kei-cars' }, folder: 'carbarn-united-kingdom/hand', lotIds: [] }]);
+  const r = await call('GET', '/api/feed/uk');
+  const hand = r.body.items.find((i) => i.kind === 'manual');
+  assert.deepEqual(hand.images, ['/posts-files/carbarn-united-kingdom/hand/instagram/1-a.png', '/posts-files/carbarn-united-kingdom/hand/instagram/2-b.png']);
+  assert.equal(hand.image, hand.images[0]);
+  assert.equal(hand.caption, '3,236 kei cars on Tuesday 🇯🇵\n\n👉 carbarn.uk/live-auction/kei-cars');
+  assert.equal(hand.folder, dir);
+});
+
 test('api: collections for a Page come with last-posted dates and a suggestion', async () => {
   const r = await call('GET', '/api/collections/uk?date=2026-11-06');
   assert.equal(r.status, 200);

@@ -34,7 +34,7 @@ The first start installs two small packages: `playwright-core` drives your insta
 
 ## The weekly routine (about 15 minutes a day)
 
-**Feeds** is home: each Page shown as its Instagram grid before the posts exist. Planned posts are dashed placeholders with a **Build** button; built posts show their picture and status (To stamp, Needs fixes, Approved, Published). Click any tile and it opens in the panel beside the grid: all its pictures, the full caption with **Copy caption**, and **Open in studio** or **Export pack**. Further right: what is up next, and which categories and themes the Page will rotate to.
+**Feeds** is home: each Page shown as its Instagram grid before the posts exist. Planned posts are dashed placeholders with a **Build** button; built posts show their picture and status (To stamp, Needs fixes, Approved, Published). The screen is two panels of the same height. Left: the Page and its grid, with the categories and themes it rotates to next along the bottom. Right: whichever tile you click, with its pictures, the full caption and **Copy caption**, and what to do next (**Check and stamp**, **Export pack**, or **Build** for a planned one). Hand-made posts show their pictures and the Caption A from their own `caption.md`, so those can be copied too.
 
 1. **Plan (Monday):** press **Propose this week**. Each Page gets three posts a week:
    - **Mon and Fri:** live auction lots from one category or theme.
@@ -112,7 +112,7 @@ An optional **Anthropic API key** adds **Polish the chosen caption with Claude**
 
 ## For a developer
 
-- Run `npm test` for 162 tests (including browser smoke tests of every screen), using Node's built-in runner.
+- Run `npm test` for 163 tests (including browser smoke tests of every screen), using Node's built-in runner.
 - Run `node scripts/check-sources.js` for a live check of all five sites.
 - Run `node scripts/e2e.mjs <dataDir> <date> <topic> <market[:category]>…` to build against live data.
 - Run `npm run check-private` before every push, or enable the hook once with `git config core.hooksPath .githooks`. `data/` and every secret stay on this computer.

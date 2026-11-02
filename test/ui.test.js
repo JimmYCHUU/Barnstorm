@@ -79,11 +79,11 @@ test('ui: a feed tile opens beside the grid, and its caption copies', async () =
   const caption = await chosenCaption();
   const r = await open('feeds/uk', async (page) => {
     await page.click(`.tile[data-pick="${postId}"]`);
-    await page.waitForSelector('#sheet [data-scopy]');
+    await page.waitForSelector('#sheet [data-copy]');
     assert.equal(await page.locator(`.tile.on[data-pick="${postId}"]`).count(), 1);
     assert.equal(await page.locator('#sheet .captext').innerText(), caption);
-    await page.click('#sheet [data-scopy]');
-    await page.waitForSelector('#sheet [data-scopy].copied');
+    await page.click('#sheet [data-copy]');
+    await page.waitForSelector('#sheet [data-copy].copied');
     assert.equal(await clipboard(page), caption);
   });
   assert.deepEqual(r.errors, []);

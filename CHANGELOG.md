@@ -5,6 +5,18 @@ and versions follow `MAJOR.MINOR.PATCH`.
 
 ## [Unreleased]
 
+### Changed
+- **Feeds is two panels of one height.** The Page and its grid on the left, the picked post on the
+  right, with matching header and footer bands, so the edges line up at every window size. The
+  five Pages are equal tabs across the full width. Planned posts are dashed placeholders with
+  their theme and a Build button instead of grey blocks. Up next and Used lately are gone from
+  Feeds: the grid already shows what's coming, and Settings → Rotation shows when each theme was
+  last used. (Jim, 2 Nov 2026: "this ui looks broken, no symmetry".)
+
+### Added
+- **Hand-made posts open with their pictures and caption.** Picking one shows all its pictures
+  and the Caption A from its `caption.md`, with Copy caption and Open folder.
+
 ## [1.0.0] - 2026-11-02
 
 ### Added

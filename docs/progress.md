@@ -74,3 +74,10 @@ Fixed: the studio's stage is exactly as wide as the picture can be and still fit
 Fixed: "Polish the chosen caption with Claude" had no click handler; it now calls /api/posts/:id/polish for the chosen caption.
 Copy goes through one helper (ui/lib.js copyText): clipboard API, a textarea fallback, the button reads "Copied" for 1.6 s, and a toast.
 Tests: 'ui: a feed tile opens beside the grid, and its caption copies' and 'ui: a wide studio gives the caption its own column, and Copy caption copies the chosen one' read the clipboard back; npm test → 162/162. Screens checked at 1920×1080, 1536×864 and 1366×768.
+
+## Feeds: two panes of one height (2 Nov 2026)
+Asked: "this ui looks broken, no symmetry, how does it falls under good ui ux" (Jim, 2 Nov 2026, screenshot at 1920 wide, 905 tall).
+Found: three columns of content height (grid, a 130 px panel for a hand-made post, Up next and Rotation) ended at three different heights with dead space under each; planned tiles were grey blocks that read as broken images; the Page chips ended at two thirds of the width.
+Ruling: Feeds is two panes filling the window height (`.feed`, 100vh - 168px), each with the same 104 px head band and 60 px foot band, so tops, bands and bottoms line up; each pane scrolls inside itself. Right pane has one structure for every tile kind (picture | caption, then actions). Up next and Used lately dropped from Feeds as duplicates of the grid and Settings → Rotation — cost if wrong: one click to Settings.
+Added: hand-made posts carry their pictures and Caption A from caption.md (lib/feed-routes.js) — test 'api: a hand-made post in the feed carries its pictures and Caption A from caption.md' RED→GREEN.
+Checked: pane edges measured equal at 1920×905, 1536×730 and 1366×650 (heads 249/249, foots equal); stacked below 1180 px. npm test → 163/163.
