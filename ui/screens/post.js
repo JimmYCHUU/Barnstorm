@@ -4,7 +4,8 @@ import { icon } from '../icons.js';
 import { crumbs } from '../app.js';
 
 const ui = { id: null, sel: 0, tab: 'card', blurDraft: null, compare: null, fmt: 'ig' };
-const STAGE = { 'lot-card': { square: 810, ig: 810 } };   // photo height, as in templates/lot-card.html
+// The lot card's photo area, as in templates/lot-card.html: 1080x900, and on Instagram 1080x1200 with the whole photo in the middle.
+const STAGE = { 'lot-card': { h: 900, igH: 1200, igWhole: true } };
 const SLOT_LABEL = { hook: 'Hook (big line)', model: 'Car name', feat: 'Features (for the caption, not on the picture)', km: 'Mileage chip',
   chip: 'Price (older design)', grade: 'Grade chip', pill: 'Line on the right of the bar', eyebrow: 'Small heading', title: 'Title', body: 'Body text', tag: 'Photo pill', note: 'Note', totalLabel: 'Total label', total: 'Total' };
 const TABS = [['card', 'text', 'Text'], ['photo', 'image', 'Photo'], ['caption', 'caption', 'Caption'], ['history', 'history', 'History']];
@@ -188,7 +189,11 @@ function photoTab(view, tab, post, c) {
       <label>Up / down<input type="range" min="0" max="100" value="${c.focus?.y ?? 50}" id="fy"></label>
       <label>Zoom<input type="range" min="1" max="2" step="0.05" value="${c.zoom || 1}" id="zm"></label></div>
     <button type="button" id="crop">Apply crop</button>
-    <label class="inline" style="margin-top:10px"><input type="checkbox" id="igfit" ${c.igfit === 'contain' ? 'checked' : ''}> Instagram: show the whole photo (for tightly framed shots)</label>
+    ${c.template === 'lot-card' ? `<label style="margin-top:10px">Logo corner<select id="lside">
+      <option value="auto" ${!c.logoSide ? 'selected' : ''}>Automatic, away from the car${!c.logoSide && c.render?.side ? ` (now top ${esc(c.render.side)})` : ''}</option>
+      <option value="right" ${c.logoSide === 'right' ? 'selected' : ''}>Top right, hook bottom left</option>
+      <option value="left" ${c.logoSide === 'left' ? 'selected' : ''}>Top left, hook bottom right</option></select></label>` : ''}
+    <label class="inline" style="margin-top:10px"><input type="checkbox" id="igfit" ${c.igfit === 'contain' ? 'checked' : ''}> Show the whole photo (for a car that touches the edges of its photo)</label>
     ${opts.length > 1 ? `<h3>Choose another photo</h3><div class="photos">${opts.map((u, i) => `<button type="button" class="${i === (c.photo.index ?? 0) ? 'on' : ''}" data-ph="${i}"><img src="${esc(thumbUrl(u))}" alt="Photo ${i + 1}" loading="lazy"></button>`).join('')}</div>` : ''}
     <p class="hint" style="margin-top:12px">Photo ${c.photo.w}×${c.photo.h}px${c.photo.w < 1000 ? ' (low resolution: it will look soft)' : ''}.</p>`;
   const pl = $('#plates', tab);
@@ -202,7 +207,9 @@ function photoTab(view, tab, post, c) {
     const boxes = [...blur]; boxes.splice(Number(b.dataset.rmb), 1);
     if (ui.blurDraft) { ui.blurDraft = boxes; draw(view, post); } else patch(view, post, { blur: boxes });
   }));
-  $('#igfit', tab).onchange = (e) => { ui.fmt = 'ig'; patch(view, post, { igfit: e.target.checked ? 'contain' : 'cover' }); };
+  $('#igfit', tab).onchange = (e) => patch(view, post, { igfit: e.target.checked ? 'contain' : 'cover' });
+  const ls = $('#lside', tab);
+  if (ls) ls.onchange = () => patch(view, post, { logoSide: ls.value });
   $('#crop', tab).onclick = () => patch(view, post, { focus: { x: Number($('#fx', tab).value), y: Number($('#fy', tab).value) }, zoom: Number($('#zm', tab).value) });
   $$('[data-ph]', tab).forEach((b) => (b.onclick = () => patch(view, post, { photoIndex: Number(b.dataset.ph) }, 'Loading the photo and re-rendering…')));
 }
@@ -224,9 +231,9 @@ function sharpness(post, c) {
 // Photo placement, mirrored from templates/shared.js, to map preview pixels to image percentages.
 function placement(c) {
   const ig = ui.fmt === 'ig', W = 1080, nw = c.photo.w, nh = c.photo.h;
-  const H = STAGE[c.template]?.[ig ? 'ig' : 'square'] || (ig ? c.igStageH : c.stageH) || 736, contain = ig && c.igfit === 'contain';
+  const st = STAGE[c.template], H = (ig ? st?.igH : st?.h) || (ig ? c.igStageH : c.stageH) || 736, contain = c.igfit === 'contain' || (ig && !!st?.igWhole);
   const s = contain ? Math.min(W / nw, H / nh) : Math.max(W / nw, H / nh) * Math.max(1, c.zoom || 1), dw = nw * s, dh = nh * s;
-  return { H, dw, dh, left: contain ? (W - dw) / 2 : -(dw - W) * (c.focus?.x ?? 50) / 100, top: contain ? H - dh : -(dh - H) * (c.focus?.y ?? 50) / 100 };
+  return { H, dw, dh, left: contain ? (W - dw) / 2 : -(dw - W) * (c.focus?.x ?? 50) / 100, top: contain ? (H - dh) / 2 : -(dh - H) * (c.focus?.y ?? 50) / 100 };
 }
 
 // Plates are seldom square to the camera, so a blur box is drawn by clicking its four corners (Jim, 2 Nov 2026).

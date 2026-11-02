@@ -6,23 +6,34 @@ and versions follow `MAJOR.MINOR.PATCH`.
 ## [Unreleased]
 
 ### Changed
-- **New lot card, from Jim's template.** The photo fills the top with only the logo plate on it,
-  now top right. The Carbarn Blue bar below holds the car's name, then white GRADE and mileage
+- **New lot card, from Jim's template.** The photo fills the top with the white Carbarn wordmark
+  of the first cards top right, without a plate. The bar and the hook chip are set in Manrope,
+  Carbarn's brand font, as in the template. The Carbarn Blue bar below holds the car's name, then white GRADE and mileage
   chips, with the auction day ("Live Auction · Thu 5 Nov") or "In Stock In Japan" on the right.
-  The hook stays as the big line above the car's name. The photo area is 1080×810, the 4:3
-  shape of auction photos, so the whole car shows on Facebook and Instagram alike. No price and
-  no web address on any picture: a stock car's price is in its caption only. The features line
-  is no longer drawn; it still writes the caption. The info cards move their logo to the top
+  The bar keeps the template's thin size; the hook sits in a blue chip at the photo's bottom
+  left, where the template had its web address. Instagram shows the whole photo in the middle
+  in Carbarn navy, with equal bands above (the logo) and below (the hook), so the car is
+  never zoomed in to fill the taller picture; a blurred copy looked unprofessional. **Show the whole photo** now works on Facebook
+  too, for a car that touches the edges of its photo. The green dot's glow is no longer
+  clipped. No price and no web address on any picture: a stock car's
+  price is in its caption only. The features line is no longer drawn; it still writes the
+  caption. The info cards move their logo to the top
   right too. Posts drawn before show **Redraw with the new design**. (Jim, 2 Nov 2026: "Just
   exclude the price… there should not be website link marked on the image", then "The vehicle
   gets cutts out in the instagram post. Also what about those hooks.")
 - **The car is no longer under a shade.** The dark navy shade across the top of every photo is
-  gone; the CARBARN wordmark sits on its own Carbarn Blue plate with a white border, the twin of
-  the GRADE badge. The stock-gallery cards lose their bottom shade too, and every photo gets a
+  gone; a soft shadow hugging the white wordmark's letters keeps it readable instead. The
+  stock-gallery cards lose their bottom shade too, and every photo gets a
   light lift in brightness and contrast for flat auction-hall light. (Jim, 2 Nov 2026: "The
   shadow engulfed the vehicle a lot. So a customer might find out this uninteresting".)
 
 ### Added
+- **The logo keeps off the car.** Each picture measures how much detail lies under the logo's
+  top corners; the logo takes the plain-wall corner, top right unless the car is there, and the
+  hook takes the other side. When both top corners are busy (old auction photos print a label in
+  each), the logo drops just below them, so an auction house's own mark is never covered.
+  **Photo → Logo corner** overrides it. (Jim, 2 Nov 2026: "If the logo ovelaps with the cars body
+  or any part then it will reflect the position to oppsite side.")
 - **Blur a plate by its four corners.** Draw a blur box now takes four clicks, one on each
   corner of the plate, so the blur follows a plate seen at an angle instead of a straight box
   around it. Right-click takes back the last corner. Older boxes still work. (Jim, 2 Nov 2026:

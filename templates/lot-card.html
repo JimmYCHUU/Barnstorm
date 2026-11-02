@@ -5,35 +5,49 @@
 <title>Carbarn lot card</title>
 <link rel="stylesheet" href="shared.css">
 <style>
-  /* Lot card, 1080x1080, from Jim's template of 2 Nov 2026 (a Carbarn Bangladesh stock card) without its price or web address,
-     plus the hook he asked to keep. The photo area is 1080x810, the 4:3 shape of auction and yard photos, so the whole car
-     shows on both formats ("The vehicle gets cutts out in the instagram post"). Only the logo sits on the photo. The Carbarn Blue
-     bar holds the hook, the car's name, then white grade and mileage chips with the auction day (or "In stock in Japan") on the right. */
-  .card{grid-template-rows:810px 1fr}
-  .bar{border-top:6px solid var(--edge);padding:0 48px;display:grid;align-content:center;min-width:0;overflow:hidden}
-  .hook{font:900 62px/1.08 var(--f);letter-spacing:-.015em;white-space:nowrap;overflow:hidden}
-  .model{font:800 34px/1.2 var(--f);margin-top:6px;white-space:nowrap;overflow:hidden}
-  .row{display:flex;align-items:center;justify-content:space-between;gap:24px;min-width:0;margin-top:18px}
+  /* Lot card, 1080x1080, from Jim's template of 2 Nov 2026 (a Carbarn Bangladesh stock card) without its price or web address.
+     As in the template: the photo fills the top 900 px with the logo top right, and a thin Carbarn Blue bar holds the car's name
+     over white grade and mileage chips, with the auction day (or "In stock in Japan") on the right. The hook sits in a blue chip
+     at the photo's bottom left, where the template had its web address ("You have changed the template itself. The bottom part
+     become broader like before, not thinner like the template").
+     Instagram (1080x1440) shows the whole photo in the middle of Carbarn navy (a blurred copy looked unprofessional), with the logo in the band above and the hook in the
+     band below, so the car is never zoomed in to fill the taller picture ("The vehicle gets cutts out in the instagram post";
+     "How about place the picture in the middle"). Both bands keep clear of the 45 px a 4:5 upload trims off.
+     The bar and the hook chip are set in Manrope, Carbarn's brand font, as in the template ("Change the box fonts to carbarn's
+     branding font"). */
+  .card{grid-template-rows:900px 1fr}
+  .photo{background:var(--navy)}
+  .frame{position:absolute;inset:0;overflow:hidden}
+  .hook{position:absolute;left:48px;bottom:28px;z-index:3;max-width:calc(100% - 96px);background:var(--blue);border:4px solid #fff;
+    border-radius:14px;padding:12px 22px;font:800 34px/1.1 var(--m);letter-spacing:-.005em;white-space:nowrap;overflow:hidden;
+    box-shadow:0 6px 18px rgba(0,0,0,.28)}
+  .bar{border-top:6px solid var(--edge);padding:0 48px;display:grid;align-content:center;gap:14px;min-width:0;overflow:hidden}
+  .model{font:700 46px/1.12 var(--m);letter-spacing:-.01em;white-space:nowrap;overflow:hidden}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:24px;min-width:0}
   .chips{display:flex;gap:14px;flex:none}
-  .tag{display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 20px;background:#fff;color:var(--navy);border-radius:12px;
-    font:700 28px/1 var(--f);white-space:nowrap}
-  .tag small{font:800 19px/1 var(--f);letter-spacing:.06em;color:var(--blue)}
-  .tag b{font-weight:800;color:var(--blue)}
-  .tag svg{width:32px;height:32px;color:var(--blue);flex:none}
-  .when{display:flex;align-items:center;gap:14px;min-width:0;font:700 27px/1.2 var(--f);white-space:nowrap;overflow:hidden}
+  .tag{display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 18px;background:#fff;color:var(--navy);border-radius:10px;
+    font:600 26px/1 var(--m);white-space:nowrap}
+  .tag small{font:700 21px/1 var(--m);letter-spacing:.02em;color:var(--blue)}
+  .tag b{font-weight:700;color:var(--blue)}
+  .tag svg{width:30px;height:30px;color:var(--blue);flex:none}
+  .when{display:flex;align-items:center;gap:14px;min-width:0;padding-left:6px;font:700 25px/1.2 var(--m);white-space:nowrap;overflow:hidden}   /* room for the dot's glow */
   .when i{flex:none;width:14px;height:14px;border-radius:50%;background:#2EE07F;box-shadow:0 0 0 5px rgba(46,224,127,.28)}
   .when.stock i{background:#fff;box-shadow:0 0 0 5px rgba(255,255,255,.28)}
-  /* Instagram 1080x1440: the same 4:3 photo, and a taller bar where the hook may take two lines (never three). */
-  .ig .card{grid-template-rows:810px 1fr}
-  .ig .bar{padding:0 56px 40px}   /* clear of the bottom 64px, which a 4:5 trim cuts */
-  .ig .hook{font-size:108px;line-height:1.04;white-space:normal;text-wrap:balance}
-  .ig .hook .nb{white-space:nowrap}
-  .ig .model{font-size:44px;margin-top:18px}
-  .ig .row{margin-top:34px}
-  .ig .tag{height:64px;padding:0 24px;font-size:32px}
-  .ig .tag small{font-size:22px}
-  .ig .tag svg{width:36px;height:36px}
-  .ig .when{font-size:30px}
+  .ig .card{grid-template-rows:1200px 1fr}
+  .ig .brand{top:61px}   /* in the middle of the band above the photo */
+  .ig .hook{left:56px;bottom:58px;max-width:calc(100% - 112px);padding:14px 26px;font-size:40px}
+  /* flip: the logo top left and the hook bottom right, when the logo would otherwise sit on the car (see quietCorner) */
+  .flip .brand{right:auto;left:48px}
+  html:not(.ig) .low .brand{top:128px}
+  .flip .hook{left:auto;right:48px}
+  .ig .flip .brand{left:56px}
+  .ig .flip .hook{right:56px}
+  .ig .bar{padding:0 56px 24px;gap:16px}
+  .ig .model{font-size:54px}
+  .ig .tag{height:60px;padding:0 22px;font-size:30px}
+  .ig .tag small{font-size:24px}
+  .ig .tag svg{width:34px;height:34px}
+  .ig .when{font-size:29px}
 </style>
 <script src="shared.js"></script>
 </head>
@@ -45,19 +59,32 @@
     + '<path d="M4.2 18a9 9 0 1 1 15.6 0"/><path d="M12 14.5l4.2-4.2"/><path d="M7.4 9.2l1 1M12 6.4v1.4M16.6 9.2l-1 1"/>'
     + '<circle cx="12" cy="14.5" r="1.7" fill="currentColor" stroke="none"/></svg>';
 
-  // card = {market:{logo,brand,lang}, photo:{src,focus,zoom,blur}, slots:{hook,model,km,grade,pill,pillTone}}
+  // Where the logo goes (Jim, 2 Nov 2026: "If the logo ovelaps with the cars body or any part then it will reflect the position to
+  // oppsite side"): the first calm spot of top right, top left, then the same corners a little lower (below the labels auction
+  // houses print in a top corner, which must not be covered); if none is calm, the calmest. "Calm" is a busyness of 1.5 or less:
+  // plain wall. Measured as the square card shows the photo, so both formats agree; Instagram keeps the logo in its band.
+  function quietCorner(img, photo) {
+    if (!img?.naturalWidth) return { side: 'right', low: false };
+    const at = window.fitPhoto(img.naturalWidth, img.naturalHeight, 1080, 900, photo);
+    const spots = [['right', false], ['left', false], ['right', true], ['left', true]].map(([side, low]) =>
+      ({ side, low, busy: window.busyness(img, at, { x: side === 'right' ? 788 : 36, y: low ? 116 : 28, w: 256, h: 90 }) }));
+    return spots.find((s) => s.busy <= 1.5) || spots.reduce((a, b) => (b.busy < a.busy ? b : a));
+  }
+
+  // card = {market:{logo,brand,lang}, side?:'left'|'right', photo:{src,focus,zoom,blur,fit}, slots:{hook,model,km,grade,pill,pillTone}}
   // feat stays on the card for the caption; it is not drawn.
   window.draw = async function (card) {
     const s = card.slots, e = window.esc;
+    const ig = document.documentElement.classList.contains('ig');
     document.documentElement.lang = card.market.lang || 'en';
     const el = document.getElementById('card');
     el.innerHTML = `
-      <div class="photo" id="stage">
-        ${card.photo.fit === 'contain' ? `<img class="back" src="${e(card.photo.src)}" alt="">` : ''}<img class="car" src="${e(card.photo.src)}" alt="${e(s.model)}">
+      <div class="photo">
+        <div class="frame" id="stage"><img class="car" src="${e(card.photo.src)}" alt="${e(s.model)}"></div>
         <span class="brand"><img class="logo" src="../assets/logos/${e(card.market.logo)}" alt="${e(card.market.brand)}"></span>
+        ${s.hook ? `<div class="hook" data-fit="hook">${e(s.hook)}</div>` : ''}
       </div>
       <div class="bar" data-box="bar">
-        ${s.hook ? `<div class="hook" data-fit="hook" data-lines="2">${e(s.hook).replace(/\S+-\S+/g, '<span class="nb">$&</span>')}</div>` : ''}
         <div class="model" data-fit="model">${e(s.model)}</div>
         <div class="row">
           <div class="chips">
@@ -67,7 +94,11 @@
           ${s.pill ? `<div class="when ${s.pillTone === 'stock' ? 'stock' : ''}" data-fit="when"><i></i>${e(s.pill)}</div>` : ''}
         </div>
       </div>`;
-    await window.finish(await window.placePhoto(document.getElementById('stage'), card.photo));
+    const placed = await window.placePhoto(document.getElementById('stage'), ig ? { ...card.photo, fit: 'contain' } : card.photo);
+    const spot = ['left', 'right'].includes(card.side) ? { side: card.side, low: false } : quietCorner(el.querySelector('img.car'), card.photo);
+    el.classList.toggle('flip', spot.side === 'left');
+    el.classList.toggle('low', spot.low);
+    await window.finish({ ...placed, side: spot.side, low: spot.low });
   };
 </script>
 </body>
