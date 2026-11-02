@@ -15,7 +15,7 @@
   --ease:cubic-bezier(.2,.8,.2,1);
 }
 *{box-sizing:border-box}
-html,body{margin:0;height:100%}
+html,body{margin:0} html{height:100%} body{min-height:100%}
 body{display:grid;grid-template-columns:224px minmax(0,1fr);grid-template-rows:56px minmax(0,1fr);background:var(--canvas);color:var(--ink);
   font:500 14px/1.5 var(--f);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
 ::selection{background:var(--blue-line);color:var(--ink)}
@@ -253,6 +253,9 @@ button.primary.blocked{background:var(--sunk);border-color:var(--line);color:var
 .facts td{padding:6px 0;border-bottom:1px solid var(--line-2)}
 .compare{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .compare img{width:100%;border-radius:var(--r-s)}
+.compare.sharp{margin:0 0 10px}
+.compare figure{margin:0}
+.compare figcaption{font-size:12px;font-weight:700;color:var(--muted);margin-top:4px}
 
 /* ---- tables, plan ---- */
 table{width:100%;border-collapse:collapse;font-size:13px}
@@ -278,11 +281,12 @@ table.form td{padding:6px 8px 6px 0;vertical-align:middle} table.form th{padding
 .slot .acts .ghost{width:26px;padding:0;justify-content:center;color:var(--muted)} .slot .acts .ghost:hover{color:var(--ink)}
 .slot.dropped{opacity:.5;border-style:dashed} .slot.dropped b{text-decoration:line-through}
 .slot.made{background:var(--sunk);border-style:dashed}
-.slot.built{padding:4px 4px 8px;transition:box-shadow .15s var(--ease)} .slot.built:hover{box-shadow:var(--lift)}
-.slot.built b{padding:0 4px}
-.slot.built .seal{position:absolute;top:10px;left:10px}
-.slot .note{font-size:11px;line-height:1.35;color:var(--amber)} .slot.built .note{padding:0 4px}
-.slot .thumb{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:6px;background:#DDE5EE;margin-bottom:4px}
+/* a built post: a small picture beside its theme and status, then what can be done with it */
+.slot.built .bt{display:grid;grid-template-columns:48px minmax(0,1fr);gap:8px;align-items:start;color:inherit;text-decoration:none;border-radius:6px}
+.slot.built .bt:hover b{color:var(--blue)}
+.slot.built .bi{display:grid;gap:4px;align-content:start;justify-items:start;min-width:0}
+.slot .note{font-size:11px;line-height:1.35;color:var(--amber)}
+.slot .thumb{display:block;width:48px;height:64px;object-fit:cover;border-radius:6px;background:#DDE5EE}
 
 /* ---- publish, learn ---- */
 .conns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}

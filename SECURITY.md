@@ -13,13 +13,19 @@ around. If you find one broken, please report it (see below).
   lot from the site first, and a changed or withdrawn lot blocks it.
 - **Reads only Carbarn's own public pages.** Listings, lots and stock come from the five Carbarn
   websites with ordinary page requests. Nothing is submitted to them, and no account is signed in.
-- **Sends one thing to an AI service, and only when asked.** With an Anthropic key added,
-  **Polish the chosen caption with Claude** sends that caption's text, and nothing else. The
-  rewrite is refused if it changes a number, drops the link or a hashtag, or uses a banned word.
+- **Sends AI services only what their job needs.** With an Anthropic key added, **Polish the
+  chosen caption with Claude** sends that caption's text, and nothing else. The rewrite is refused
+  if it changes a number, drops the link or a hashtag, or uses a banned word. With a Gemini key
+  added, a listing photo is sent to Google's Gemini to be sharpened: automatically when a post is
+  built and the photo is narrower than 1000 px (unless that is switched off in Settings), or when
+  **Sharpen with Gemini** is pressed for it. Only that photo goes, never a caption, a token or a
+  post.
+- **Never removes a watermark.** Sharpening keeps all text and logos in a photo as they are,
+  watermarks included, and keeps blurred plates blurred.
 - **Local only.** The page is served on `127.0.0.1`. Any request that changes something is
   refused when it comes from another website or origin. **Open folder** opens only folders inside
   `posts/`.
-- **Keeps secrets out of this folder.** Page tokens and the Anthropic key live in
+- **Keeps secrets out of this folder.** Page tokens, the Anthropic key and the Gemini key live in
   `%APPDATA%\CarbarnContentEngine\secrets.json` on this computer, never in the project, and never
   in a posting pack or a log.
 

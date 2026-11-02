@@ -1,5 +1,5 @@
 // Plan: a week of posts per Page. Propose, adjust, then build each slot the day before it goes out.
-import { api, esc, busy, toast, state, marketName, topicName, categoryLabel, nice, niceDates, plusDays, collectionSelect, avatar, shortMarket, seal, $, $$ } from '../lib.js';
+import { api, esc, busy, toast, ask, state, marketName, topicName, categoryLabel, nice, niceDates, plusDays, collectionSelect, avatar, shortMarket, seal, $, $$ } from '../lib.js';
 import { icon } from '../icons.js';
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -53,6 +53,18 @@ export async function render(view) {
     render(view);
   }));
   $$('[data-edit]', view).forEach((b) => (b.onclick = () => edit(view, plan.slots.find((s) => s.id === b.dataset.edit))));
+  // A built post: build it again with other cars, or take it off the Plan.
+  $$('[data-rebuild]', view).forEach((b) => (b.onclick = async () => {
+    const s = plan.slots.find((x) => x.id === b.dataset.rebuild);
+    if (!await ask('Build this post again', `<p class="hint" style="max-width:420px">A new ${esc(what(s))} post is built with other cars. The current one comes off the Plan once the new one is ready${stampedNote(s)}. It stays under Posts → Rejected and does not count against the theme.</p>`, 'Build again')) return;
+    const p = await busy('Building a new post with other cars: 20 to 60 seconds.', () => api('POST', `/api/plan/${encodeURIComponent(s.id)}/rebuild`, {}));
+    if (p) location.hash = `#/post/${encodeURIComponent(p.id)}`;
+  }));
+  $$('[data-remove]', view).forEach((b) => (b.onclick = async () => {
+    const s = plan.slots.find((x) => x.id === b.dataset.remove);
+    if (!await ask('Remove this post from the Plan', `<p class="hint" style="max-width:420px">The ${esc(what(s))} post comes off ${esc(nice(s.date))}${stampedNote(s)}, and the slot goes back to planned, ready to build again. The post stays under Posts → Rejected and does not count against the theme.</p>`, 'Remove')) return;
+    if (await busy('Removing…', () => api('POST', `/api/plan/${encodeURIComponent(s.id)}/remove`))) { toast('Removed. Build the slot again when you are ready.'); render(view); }
+  }));
 }
 
 const what = (s) => s.params?.category ? categoryLabel(s.market, s.params.category) : topicName(s.topic);
@@ -64,10 +76,17 @@ function madeCard(s) {
     ${s.postId ? `<a href="#/post/${encodeURIComponent(s.postId)}">Already made</a>` : '<span class="muted">Posted by hand</span>'}</div>`;
 }
 
+const stampedNote = (s) => (['approved', 'exported'].includes(s.postStatus) ? ` (it was already stamped${s.postStatus === 'exported' ? ' and exported' : ''})` : '');
+
 function slotCard(s, thumbs, today) {
   if (s.postId) {
-    return `<a class="slot built" href="#/post/${encodeURIComponent(s.postId)}">${thumbs[s.postId] ? `<img class="thumb" src="${esc(thumbs[s.postId])}" alt="" loading="lazy">` : ''}
-      ${seal(s.postStatus || 'draft')}<b>${esc(what(s))}</b>${s.note ? `<span class="note">${esc(niceDates(s.note))}</span>` : ''}</a>`;
+    const fixed = s.postStatus === 'published';
+    return `<div class="slot built"><a class="bt" href="#/post/${encodeURIComponent(s.postId)}">${thumbs[s.postId] ? `<img class="thumb" src="${esc(thumbs[s.postId])}" alt="" loading="lazy">` : '<span class="thumb"></span>'}
+        <span class="bi">${title(s)}${seal(s.postStatus || 'draft')}</span></a>
+      ${s.note ? `<span class="note">${esc(niceDates(s.note))}</span>` : ''}
+      ${fixed ? '' : `<span class="acts"><button class="small" data-rebuild="${esc(s.id)}" title="Build it again with the same theme and other cars">${icon('refresh', 14)}Rebuild</button>
+        <button class="small ghost" data-edit="${esc(s.id)}" title="Rebuild with another topic, theme or date" aria-label="Change and rebuild">${icon('swap', 15)}</button>
+        <button class="small ghost" data-remove="${esc(s.id)}" title="Take this post off the Plan" aria-label="Remove">${icon('x', 15)}</button></span>`}</div>`;
   }
   if (s.status === 'dropped') {
     return `<div class="slot dropped">${title(s)}<button class="small" data-drop="${esc(s.id)}" data-to="proposed">Restore</button></div>`;
@@ -78,13 +97,15 @@ function slotCard(s, thumbs, today) {
       <button class="small ghost" data-drop="${esc(s.id)}" data-to="dropped" title="Drop this post" aria-label="Drop">${icon('x', 15)}</button></span>`}</div>`;
 }
 
+// Change a slot's topic, theme or date. On a built slot this builds the new post and takes the old one off.
 async function edit(view, s) {
-  const m = state.info.markets.find((x) => x.key === s.market), d = $('#dlg');
-  d.innerHTML = `<form method="dialog" class="fields" id="ef"><h2>${esc(m.brand)}: change this post</h2>
+  const m = state.info.markets.find((x) => x.key === s.market), d = $('#dlg'), built = !!s.postId;
+  d.innerHTML = `<form method="dialog" class="fields" id="ef"><h2>${esc(m.brand)}: ${built ? 'rebuild with something else' : 'change this post'}</h2>
+    ${built ? `<p class="hint" style="max-width:420px">A new post is built with what you choose here. The current one comes off the Plan once the new one is ready${stampedNote(s)}.</p>` : ''}
     <label>Topic<select name="topic">${state.info.topics.map((t) => `<option value="${t.key}" ${t.key === s.topic ? 'selected' : ''}>${esc(t.label)}</option>`).join('')}</select></label>
     <label id="catrow">Category or theme<span id="catsel"></span><span class="hint">Used by live lots and lot spotlight. Each one shows when this Page last posted it.</span></label>
     <label>Post date<input type="date" name="date" value="${s.date}"></label>
-    <div class="row" style="justify-content:flex-end"><button value="cancel" formnovalidate>Cancel</button><button value="ok" class="primary">Save</button></div></form>`;
+    <div class="row" style="justify-content:flex-end"><button value="cancel" formnovalidate>Cancel</button><button value="ok" class="primary">${built ? 'Rebuild' : 'Save'}</button></div></form>`;
   const f = $('#ef', d);
   const sync = async () => {
     const lots = ['live-lots', 'lot-spotlight'].includes(f.topic.value);
@@ -98,6 +119,11 @@ async function edit(view, s) {
   if (!ok) return;
   const v = Object.fromEntries(new FormData(f));
   const params = ['live-lots', 'lot-spotlight'].includes(v.topic) ? { category: v.category } : {};
+  if (built) {
+    const p = await busy('Building the new post: 20 to 60 seconds.', () => api('POST', `/api/plan/${encodeURIComponent(s.id)}/rebuild`, { topic: v.topic, params, date: v.date }));
+    if (p) location.hash = `#/post/${encodeURIComponent(p.id)}`;
+    return;
+  }
   await busy('Saving…', () => api('PATCH', `/api/plan/${encodeURIComponent(s.id)}`, { topic: v.topic, params, date: v.date, status: 'accepted' }));
   render(view);
 }

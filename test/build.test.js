@@ -89,7 +89,7 @@ test('store: edit creates a version, locks the slot and re-renders only that car
   d.renders.length = 0;
   const next = await rebuildCard(post, 1, { slots: { hook: 'Tiny and mighty' } }, d);
   assert.equal(next.version, 2);
-  assert.equal(next.cards[1].slots.hook, 'Tiny and mighty');
+  assert.equal(next.cards[1].slots.hook, 'Tiny And Mighty');   // every word on a picture starts with a capital
   assert.ok(next.cards[1].locked.includes('hook'));
   assert.equal(d.renders.length, 2);
   assert.ok(d.renders.some((r) => r.includes(`${path.sep}ig${path.sep}card-1.png`)));
@@ -128,4 +128,80 @@ test('liveLots: a theme reads its own listing (brand/model path or filters)', as
   const post = await buildPost({ market: 'uk', topic: 'live-lots', params: { category: 'jimny' }, plannedFor: '2026-11-02' }, d);
   assert.equal(seen[0].path, 'suzuki/jimny');
   assert.equal(post.params.category, 'jimny');
+});
+
+// ---- sharpening low-resolution photos with Gemini (a stand-in here; nothing is sent) ----
+async function withGeminiKey(fn) {
+  const { writeSecrets } = await import('../lib/secrets.js');
+  const was = process.env.CE_SECRETS;
+  process.env.CE_SECRETS = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'ce-sec-')), 'secrets.json');
+  writeSecrets({ gemini: { apiKey: 'test-key' } });
+  try { return await fn(); } finally { if (was) process.env.CE_SECRETS = was; else delete process.env.CE_SECRETS; }
+}
+function lowResDeps(enhance) {
+  const d = deps();
+  d.cachePhoto = async () => ({ file: path.join(process.env.CE_DATA, 'small.jpg'), w: 640, h: 480 });
+  d.enhanced = [];
+  d.enhancePhoto = enhance || (async (file, size) => { d.enhanced.push({ file, size }); return { file: file.replace('.jpg', '.gemini.png'), w: 2048, h: 1536, model: 'gemini-test' }; });
+  return d;
+}
+
+test('build: a low-resolution photo is sharpened with Gemini, the original kept, and flagged to compare', async () => withGeminiKey(async () => {
+  const d = lowResDeps();
+  const post = await buildPost({ market: 'uk', topic: 'live-lots', params: { category: 'kei-cars' }, plannedFor: '2026-11-02' }, d);
+  assert.equal(d.enhanced.length, 4);
+  const c = post.cards[0];
+  assert.deepEqual([c.photo.w, c.photo.h, c.photo.original.w], [2048, 1536, 640]);
+  assert.match(c.photo.file, /\.gemini\.png$/);
+  assert.equal(c.photo.enhanced.model, 'gemini-test');
+  assert.equal(c.platesChecked, false);
+}));
+
+test('build: without a Gemini key nothing is sent, and the soft photo is flagged as before', async () => {
+  const d = lowResDeps();
+  const was = process.env.CE_SECRETS;
+  process.env.CE_SECRETS = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'ce-sec-')), 'secrets.json');
+  try {
+    const post = await buildPost({ market: 'uk', topic: 'live-lots', params: { category: 'kei-cars' }, plannedFor: '2026-11-02' }, d);
+    assert.equal(d.enhanced.length, 0);
+    assert.equal(post.cards[0].photo.w, 640);
+  } finally { if (was) process.env.CE_SECRETS = was; else delete process.env.CE_SECRETS; }
+});
+
+test('build: when Gemini fails the original photo is used and the post says why', async () => withGeminiKey(async () => {
+  const d = lowResDeps(async () => { throw new Error('Gemini is over its quota'); });
+  const post = await buildPost({ market: 'uk', topic: 'live-lots', params: { category: 'kei-cars' }, plannedFor: '2026-11-02' }, d);
+  assert.equal(post.cards[0].photo.w, 640);
+  assert.ok(post.qa.some((f) => f.id === 'sharpen-failed' && /quota/.test(f.message)));
+}));
+
+test('rebuild: "Use the original" puts the photo back, and "Sharpen" brings Gemini back', async () => withGeminiKey(async () => {
+  const d = lowResDeps();
+  const post = await buildPost({ market: 'uk', topic: 'live-lots', params: { category: 'kei-cars' }, plannedFor: '2026-11-02' }, d);
+  const back = await rebuildCard(post, 0, { enhance: false }, d);
+  assert.deepEqual([back.cards[0].photo.w, back.cards[0].photo.enhanced, back.cards[0].noSharpen], [640, undefined, true]);
+  assert.equal(back.cards[0].platesChecked, false);
+  assert.match(back.reason, /original photo/);
+  const again = await rebuildCard(back, 0, { enhance: true }, d);
+  assert.equal(again.cards[0].photo.w, 2048);
+  assert.equal(again.cards[0].noSharpen, undefined);
+}));
+
+test('build: the hook, the features line and their options start every word with a capital', async () => {
+  const post = await buildPost({ market: 'uk', topic: 'live-lots', params: { category: 'kei-cars' }, plannedFor: '2026-11-02' }, deps());
+  const lower = (s) => String(s).split(/[s-]+/).filter((w) => /^[a-z]/.test(w) && !['km', 'cc'].includes(w));
+  for (const card of post.cards) {
+    assert.deepEqual(lower(card.slots.hook), [], card.slots.hook);
+    assert.deepEqual(lower(card.slots.feat), [], card.slots.feat);
+    for (const h of card.hookOptions || []) assert.deepEqual(lower(h.text), [], h.text);
+  }
+});
+
+
+test('pick: R and RA grade cars (repair history) are never put in a post', () => {
+  const lot = (id, grade) => ({ id, grade, make: 'TOYOTA', model: `MODEL${id}`, sellingPoints: 'Smart Key', photos: ['a', 'b', 'c'] });
+  assert.ok(scoreLot(lot('1', 'R')) < 0);
+  assert.ok(scoreLot(lot('2', 'RA')) < 0);
+  assert.ok(scoreLot(lot('3', '3.5')) >= 0);
+  assert.deepEqual(pickLots([lot('1', 'R'), lot('2', 'RA'), lot('3', '3.5'), lot('4', '4')], 4).map((l) => l.id).sort(), ['3', '4']);
 });

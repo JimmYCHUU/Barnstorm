@@ -1,0 +1,7 @@
+{
+  "_about": "Sharpening low-resolution listing photos with Google's Gemini. The API key goes in Settings > Connections, never in this file. sharpen: \"auto\" sharpens every photo narrower than belowWidth when a post is built; \"off\" only sharpens when you press Sharpen in the studio. Each sharpened photo costs about US$0.05 at 2K.",
+  "sharpen": "auto",
+  "belowWidth": 1000,
+  "model": "gemini-nano-banana-2.1",
+  "imageSize": "2K"
+}

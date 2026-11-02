@@ -24,6 +24,8 @@ const deps = {
   },
   cachePhoto: async () => ({ file: path.join(process.env.CE_DATA, 'p.jpg'), w: 1024, h: 768 }),
   renderCard: async (card, out) => { fs.mkdirSync(path.dirname(out), { recursive: true }); fs.writeFileSync(out, png); return { overflow: [], photo: { w: 1024, h: 768 } }; },
+  // Gemini stand-in: nothing leaves the computer in tests.
+  enhancePhoto: async () => { const out = path.join(process.env.CE_DATA, 'cache', 'photos', 'sharp.png'); fs.mkdirSync(path.dirname(out), { recursive: true }); fs.writeFileSync(out, png); return { file: out, w: 2048, h: 1536, model: 'stub' }; },
 };
 
 let server, base, browser, postId;
@@ -123,4 +125,26 @@ test('ui: the same plate check on several cards shows as one line', async () => 
   const html = flagList([1, 2, 3].map((n) => ({ severity: 'error', card: n - 1, message: msg(n) })).concat({ severity: 'warn', message: 'Something else' }));
   assert.equal((html.match(/class="flag /g) || []).length, 2);
   assert.match(html, /Look at cards 1, 2 and 3 for readable/);
+});
+
+test('ui: the Photo tab sharpens with Gemini, shows the original beside it, and can put it back', async () => {
+  const r = await open(`post/${postId}`, async (page) => {
+    await page.click('[data-tab=photo]');
+    await page.click('[data-enhance="1"]');
+    await page.waitForSelector('.compare.sharp img');
+    assert.equal(await page.locator('.compare.sharp img').count(), 2);
+    await page.click('[data-enhance="0"]');
+    await page.waitForSelector('[data-enhance="1"]');
+  });
+  assert.deepEqual(r.errors, []);
+});
+
+test('ui: Settings has a place for the Gemini key and the automatic sharpening switch', async () => {
+  const r = await open('settings', async (page) => {
+    await page.waitForSelector('#gk');
+    assert.equal(await page.locator('#gk').getAttribute('type'), 'password');
+    assert.equal(await page.locator('#gauto').count(), 1);
+  });
+  assert.deepEqual(r.errors, []);
+  assert.match(r.text, /Gemini/);
 });

@@ -60,7 +60,7 @@ test('api: patch hook re-renders only that card', async () => {
   renders.length = 0;
   const r = await call('PATCH', `/api/posts/${id}`, { card: 2, slots: { hook: 'Tiny and mighty' } });
   assert.equal(r.status, 200);
-  assert.equal(r.body.cards[2].slots.hook, 'Tiny and mighty');
+  assert.equal(r.body.cards[2].slots.hook, 'Tiny And Mighty');   // every word on a picture starts with a capital
   assert.equal(renders.length, 2);
 });
 
@@ -270,4 +270,25 @@ test('api: a theme switched off in Settings is never planned', async () => {
   assert.equal(all.body.find((x) => x.key === 'nissan').enabled, true);
   delete process.env.CE_CONFIG;
   reloadMarkets();
+});
+
+test('api: a Gemini key is tried with Google before it is saved, and never sent back', async () => {
+  const was = process.env.CE_SECRETS;
+  process.env.CE_SECRETS = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'ce-api-sec-')), 'secrets.json');
+  try {
+    deps.checkGeminiKey = async (key) => { if (key !== 'good-key') throw Object.assign(new Error('Google says the Gemini key is not valid'), { name: 'UserError' }); };
+    const bad = await call('PUT', '/api/connections/gemini', { apiKey: 'bad-key' });
+    assert.notEqual(bad.status, 200);
+    assert.match(bad.body.error, /not valid/);
+    assert.equal((await call('GET', '/api/connections')).body.gemini, false);
+    const ok = await call('PUT', '/api/connections/gemini', { apiKey: ' good-key ' });
+    assert.equal(ok.status, 200);
+    assert.equal(ok.body.gemini, true);
+    assert.doesNotMatch(JSON.stringify(ok.body), /good-key/);
+    assert.equal(JSON.parse(fs.readFileSync(process.env.CE_SECRETS, 'utf8')).gemini.apiKey, 'good-key');
+    assert.equal(ok.body.photos.model, 'gemini-nano-banana-2.1');
+  } finally {
+    delete deps.checkGeminiKey;
+    if (was) process.env.CE_SECRETS = was; else delete process.env.CE_SECRETS;
+  }
 });

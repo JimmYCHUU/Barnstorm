@@ -6,6 +6,40 @@ and versions follow `MAJOR.MINOR.PATCH`.
 ## [Unreleased]
 
 ### Changed
+- **R and RA grade cars are never put in a post.** Cars with a repair history are left out of
+  live-lot and lot-spotlight posts and out of the swap list. Carbarn's own stock is unaffected.
+  (Jim, 2 Nov 2026, after rejecting a post because "This lot is R grade": "r should be skipped".)
+- **Every word on the pictures starts with a capital.** The hook, the features line and an info
+  card's title: "Room For Seven", "Pocket-Sized 4x4", "4WD · 5-Speed Manual · Keyless Entry". What
+  you type in the Text tab follows the same rule. Short forms, numbers and km are unchanged;
+  body text and captions stay in sentences. (Jim, 2 Nov 2026: "Every words first letter should be
+  capital letter.")
+
+### Added
+- **Rebuild, change or remove a built post on the Plan.** Rebuild builds the day again with the
+  same theme and other cars. Change rebuilds it with another topic, theme or date. Remove takes
+  the post off so the day can be built again. The new post is built before the old one comes off,
+  so a failed rebuild leaves things as they were. Published posts stay. (Jim, 2 Nov 2026: "There
+  should be option to remove this lot. and re generate with same or different category".)
+- **A rejected post frees its day.** Rejecting a post in the studio puts its Plan slot back to
+  planned, with the reason in a note, and the next build skips its cars. Before, a rejected post
+  kept the slot, and Build only reopened it.
+- **Soft photos are sharpened with Gemini.** With a Gemini API key saved in Settings → Connections,
+  every listing photo narrower than 1000 px is sent to Google's Gemini when a post is built and
+  comes back as a sharper 2K version (about US$0.05 a photo). Gemini is told to change nothing
+  about the car, keep all text and logos including watermarks, and keep blurred plates blurred.
+  Every sharpened photo is flagged to compare with the original in the Photo tab, where **Use the
+  original** puts it back, and the plates check starts again. A key is checked with Google before
+  it is saved. (Jim, 2 Nov 2026: "The pictures for vehicles are a bit low resolution … I want to
+  use the gemini for that.")
+
+### Fixed
+- **Built posts on the Plan are compact rows.** A small picture beside the theme and status,
+  instead of a full-size card that stretched a whole row of the week.
+- **The side menu stays in place on long pages.** On Settings, Plan or the studio, scrolling
+  used to carry the navy menu away and leave white space under it.
+
+### Changed
 - **Feeds is two panels of one height.** The Page and its grid on the left, the picked post on the
   right, with matching header and footer bands, so the edges line up at every window size. The
   five Pages are equal tabs across the full width. Planned posts are dashed placeholders with

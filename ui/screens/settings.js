@@ -30,7 +30,12 @@ function connections(el, s, conn, view) {
     <h2 style="margin-top:28px">Claude (optional caption polish)</h2>
     <p class="hint">With an Anthropic API key, the Caption tab gets a “Polish with Claude” button. Numbers are always checked against the listing afterwards.</p>
     <div class="row"><input type="password" id="ak" autocomplete="off" placeholder="${conn.anthropic ? '•••• saved' : 'sk-ant-…'}" style="max-width:360px">
-      <button class="primary" id="saveak">Save key</button>${conn.anthropic ? '<button class="danger" id="clearak">Remove key</button>' : ''}</div>`;
+      <button class="primary" id="saveak">Save key</button>${conn.anthropic ? '<button class="danger" id="clearak">Remove key</button>' : ''}</div>
+    <h2 style="margin-top:28px">Gemini (sharpen low-resolution photos)</h2>
+    <p class="hint" style="max-width:820px">Auction photos are often only 640 px wide and look soft on a card. With a Gemini API key, Barnstorm sends each photo narrower than ${conn.photos.belowWidth} px to Google's Gemini and gets back a sharper ${esc(conn.photos.imageSize)} version, for about US$0.05 a photo. The car must come back exactly as it is, so every sharpened photo is flagged for you to compare with the original before stamping, and “Use the original” puts it back. Watermarks and blurred plates are left as they are. Get a key at aistudio.google.com/apikey. It is saved only on this PC, never in the project folder.</p>
+    <div class="row"><input type="password" id="gk" autocomplete="off" placeholder="${conn.gemini ? '•••• saved' : 'AIza…'}" style="max-width:360px">
+      <button class="primary" id="savegk">Save key</button>${conn.gemini ? '<button class="danger" id="cleargk">Remove key</button>' : ''}</div>
+    <label class="inline" style="margin-top:12px"><input type="checkbox" id="gauto" ${conn.photos.sharpen === 'auto' ? 'checked' : ''}> Sharpen soft photos automatically when a post is built. Untick to sharpen only when you press Sharpen in the studio.</label>`;
   $$('[data-save]', el).forEach((b) => (b.onclick = async () => {
     const row = b.closest('tr'), v = Object.fromEntries($$('input', row).map((i) => [i.name, i.value]));
     if (await save(() => api('PUT', '/api/connections/meta', { market: b.dataset.save, ...v, graphVersion: $('#gv', el).value }))) render(view);
@@ -39,6 +44,10 @@ function connections(el, s, conn, view) {
   $('#saveak', el).onclick = async () => { if (await save(() => api('PUT', '/api/connections/anthropic', { apiKey: $('#ak', el).value }))) render(view); };
   const ca = $('#clearak', el);
   if (ca) ca.onclick = async () => { if (await save(() => api('PUT', '/api/connections/anthropic', { clear: true }))) render(view); };
+  $('#savegk', el).onclick = async () => { if (await save(() => api('PUT', '/api/connections/gemini', { apiKey: $('#gk', el).value }), 'Gemini key checked with Google and saved.')) render(view); };
+  const cg = $('#cleargk', el);
+  if (cg) cg.onclick = async () => { if (await save(() => api('PUT', '/api/connections/gemini', { clear: true }), 'Gemini key removed.')) render(view); };
+  $('#gauto', el).onchange = (e) => save(() => api('PUT', '/api/settings/photos', { sharpen: e.target.checked ? 'auto' : 'off' }));
 }
 
 // Rotation: which categories and themes each Page draws from, when each was last posted, and the category order.

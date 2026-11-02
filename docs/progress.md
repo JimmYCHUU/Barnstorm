@@ -81,3 +81,31 @@ Found: three columns of content height (grid, a 130 px panel for a hand-made pos
 Ruling: Feeds is two panes filling the window height (`.feed`, 100vh - 168px), each with the same 104 px head band and 60 px foot band, so tops, bands and bottoms line up; each pane scrolls inside itself. Right pane has one structure for every tile kind (picture | caption, then actions). Up next and Used lately dropped from Feeds as duplicates of the grid and Settings → Rotation — cost if wrong: one click to Settings.
 Added: hand-made posts carry their pictures and Caption A from caption.md (lib/feed-routes.js) — test 'api: a hand-made post in the feed carries its pictures and Caption A from caption.md' RED→GREEN.
 Checked: pane edges measured equal at 1920×905, 1536×730 and 1366×650 (heads 249/249, foots equal); stacked below 1180 px. npm test → 163/163.
+
+## Gemini photo sharpening (2 Nov 2026)
+Asked: "The pictures for vehicles are a bit low resolution when it finds. I want the system to make the image higher resolution also remove any kind of watermark it has. I want to use the gemini for that. I have api key. where's the env file where I can paste the api for gemini" (Jim, 2 Nov 2026).
+Ruling: no .env file. The Gemini key goes in Settings → Connections like the Claude key, into %APPDATA%CarbarnContentEnginesecrets.json; the route tries it with Google (GET models/<model>, free) before saving.
+Ruling (declined): watermark removal. The watermarks are the auction house's own marks ("www.bay-auc.com", "BAYAUC Co.,Ltd" on 640×480 photos), auction houses already ban reposting their photos, and removing an owner's mark from a photo to publish it is not something Barnstorm will do. The sharpening prompt tells Gemini to keep all text and logos, watermarks included.
+Ruling: model gemini-nano-banana-2.1 at 2K through v1beta generateContent (US$0.0504 a picture at 2K on the pricing page, no free tier for image output); model, size, threshold and auto/off in config/photos.json.
+Ruling: a generative edit of a car for sale must not change the car, so: the prompt forbids adding, removing or repairing anything; a smaller or differently shaped result is refused; the original stays on the card (photo.original); every sharpened card gets a 'sharpened' warning to compare it with the original side by side in the Photo tab; the plates tick resets; "Use the original" restores it and stops auto-sharpening that card.
+Tests: test/gemini.test.js (request shape, cache, refusals, plain-word errors), build tests (auto on build, no key sends nothing, failure keeps the original, Use the original / Sharpen), QA, API key route (bad key refused, never echoed), two browser tests; npm test → 175/175. No call to Google was made: there is no key on this computer yet.
+Fixed: html/body height:100% made the sticky side menu scroll away on long pages; body now has min-height.
+
+## Plan: rebuild, change or remove a built post (2 Nov 2026)
+Asked: "There should be option to remove this lot. and re generate with same or different category or anything." (Jim, 2 Nov 2026, screenshot of the Plan with Ireland's rejected "JDM classics" post on Wed 4 Nov, reason "This lot is R grade".)
+Found: POST /api/plan/:id/build returned whatever post was linked, even a rejected one, so a rejected slot could never be built again; built slots had no actions; the built card was a full-size picture that made Ireland's row about 450 px tall.
+Ruling: three actions on a built slot: Rebuild (same theme, other cars), change (topic, theme or date, then rebuild) and Remove. A removed or replaced post is set to rejected with removedFromPlan, and a 'removed' event is logged instead of 'rejected', so Learn never reads it as a dislike of the theme — cost if wrong: one suggestion fewer. Published posts are refused (409).
+Ruling: Rebuild builds the new post first and takes the old one off only after it succeeds (the old post still holds its cars, so they are not picked again); a failed rebuild leaves the slot as it was — test 'plan: a Rebuild that cannot build leaves the old post where it was'.
+Ruling: a post rejected in the studio, or deleted, frees its slot when the Plan is opened or the slot is built (releaseRejected), with the reason in the note; the slot keeps the old cars in slot.avoid, kept out of the next build unless nothing else is listed (buildPost avoid).
+Tests: test/plan-slots.test.js (4), npm test → 179/179. Checked on a copy of Jim's data at 1920×905: the rejected Ireland slot frees itself with its reason, rows are 134 px each.
+Open: the picker can still choose R or RA grade cars when a theme has nothing better (lib/pick.js scores them low, not out); asked Jim whether to leave them out of posts altogether.
+
+## Capitals on the pictures (2 Nov 2026)
+Asked: "Every words first letter should be capital letter." (Jim, 2 Nov 2026.) Asked where; he chose "Text on the post pictures" only (not app labels, theme names or captions).
+Ruling: the hook, the features line and an info card's title (lib/build.js CAPITALS), applied when a card is built, edited or swapped and again when it is drawn, so older posts follow it on their next render. Body paragraphs stay sentences; pills are already upper case; car names already capitalised.
+Ruling: lib/text/case.js capitalWords changes first letters only: JDM, 4WD, GR untouched; words starting with a number left alone (4x4, 2.5, 660cc); each hyphen part capitalised (Pocket-Sized, 6-Speed, A-Grade); units km, cc, kg, mph stay small; apostrophes are not word breaks (Japan's).
+Checked: real renders of four cards (Pocket-Sized 4x4, Rally-Bred Hot Hatch, Look Up: Glass Roof, Leather Inside) fit with no overflow. Tests: case and build tests added, four older tests updated to the capitalised text; npm test → 181/181.
+
+## R-grade cars skipped (2 Nov 2026)
+Asked: "r should be skipped" (Jim, 2 Nov 2026, answering whether R and RA grade cars should be left out of posts).
+Ruling: scoreLot returns "do not use" for any grade starting with R (R and RA), so live lots, lot spotlight and the swap list never offer them; stock posts (Carbarn's own cars) are unaffected — test 'pick: R and RA grade cars (repair history) are never put in a post'; npm test → 182/182.

@@ -88,7 +88,7 @@ function draw(view, post, measured = false) {
   $('#reopen', view) && ($('#reopen', view).onclick = () => act(view, 'Reopening…', () => api('POST', `/api/posts/${post.id}/reopen`)));
   $('#reject', view) && ($('#reject', view).onclick = async () => {
     const v = await ask('Reject this post', '<label>Why? Barnstorm learns from this.<input type="text" name="reason" required placeholder="e.g. hooks too generic, wrong theme for this Page"></label>', 'Reject');
-    if (v) act(view, 'Saving…', () => api('POST', `/api/posts/${post.id}/reject`, { reason: v.reason }));
+    if (v && await act(view, 'Saving…', () => api('POST', `/api/posts/${post.id}/reject`, { reason: v.reason }))) toast('Rejected. Its day on the Plan is free again: build it again there or on Feeds.');
   });
   $('#approve', view) && ($('#approve', view).onclick = async () => {
     if (errors) { $('.checks', view).scrollIntoView({ behavior: 'smooth', block: 'start' }); toast('Fix the red checks first, then approve.', true); return; }
@@ -131,7 +131,7 @@ function cardTab(view, tab, post, c) {
       ${k === 'body' ? `<textarea name="${k}" style="min-height:90px">${esc(c.slots[k])}</textarea>` : `<input type="text" name="${k}" value="${esc(c.slots[k])}">`}
       ${k === 'hook' && c.hookOptions?.length ? `<span class="row">${c.hookOptions.map((h) => `<button type="button" class="chip" data-hook="${esc(h.text)}" title="from ${esc(h.source)}">${esc(h.text)}</button>`).join('')}</span>` : ''}
     </label>`).join('')}
-    <div class="row"><button class="primary">Save text</button><span class="hint">Only this picture is re-rendered, in both formats.</span></div></form>
+    <div class="row"><button class="primary">Save text</button><span class="hint">Only this picture is re-rendered, in both formats. Every word of the hook, features line and title starts with a capital on the picture.</span></div></form>
     ${f.id ? `<h3>From the listing</h3><table class="facts">
       <tr><th>Lot</th><td><a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.id)} · ${esc(f.title)}</a></td></tr>
       <tr><th>Auction</th><td>${esc(f.auctionHouse || '')} · ${nice(f.auctionDate)}</td></tr>
@@ -172,6 +172,7 @@ function photoTab(view, tab, post, c) {
   tab.innerHTML = `
     <label class="inline"><input type="checkbox" id="plates" ${c.platesChecked ? 'checked' : ''}> Plates checked: no readable number plate on this card</label>
     <p class="hint">${c.photo.source === 'auction' ? 'Auction-house photo: plates are usually blurred already, but not always.' : 'Carbarn\'s own yard photo (rights-safe), but its plates are not blurred.'} Look at the preview, draw a blur box over anything readable, then tick.</p>
+    ${sharpness(post, c)}
     <h3>Blur boxes</h3>
     <div class="row"><button type="button" id="drawb">${ui.blurDraft ? 'Stop drawing' : 'Draw a blur box'}</button>
       ${ui.blurDraft ? '<button type="button" class="primary" id="saveb">Save blur boxes</button>' : ''}
@@ -186,6 +187,8 @@ function photoTab(view, tab, post, c) {
     ${opts.length > 1 ? `<h3>Choose another photo</h3><div class="photos">${opts.map((u, i) => `<button type="button" class="${i === (c.photo.index ?? 0) ? 'on' : ''}" data-ph="${i}"><img src="${esc(thumbUrl(u))}" alt="Photo ${i + 1}" loading="lazy"></button>`).join('')}</div>` : ''}
     <p class="hint" style="margin-top:12px">Photo ${c.photo.w}×${c.photo.h}px${c.photo.w < 1000 ? ' (low resolution: it will look soft)' : ''}.</p>`;
   const pl = $('#plates', tab);
+  $$('[data-enhance]', tab).forEach((b) => (b.onclick = () => patch(view, post, { enhance: b.dataset.enhance === '1' },
+    b.dataset.enhance === '1' ? 'Sharpening the photo with Gemini: 10 to 30 seconds…' : 'Putting the original photo back…')));
   if (pl) pl.onchange = () => patch(view, post, { platesChecked: pl.checked }, 'Saving…');
   $('#drawb', tab).onclick = () => { ui.blurDraft = ui.blurDraft ? null : [...(c.blur || [])]; draw(view, post); };
   const sb = $('#saveb', tab);
@@ -197,6 +200,20 @@ function photoTab(view, tab, post, c) {
   $('#igfit', tab).onchange = (e) => { ui.fmt = 'ig'; patch(view, post, { igfit: e.target.checked ? 'contain' : 'cover' }); };
   $('#crop', tab).onclick = () => patch(view, post, { focus: { x: Number($('#fx', tab).value), y: Number($('#fy', tab).value) }, zoom: Number($('#zm', tab).value) });
   $$('[data-ph]', tab).forEach((b) => (b.onclick = () => patch(view, post, { photoIndex: Number(b.dataset.ph) }, 'Loading the photo and re-rendering…')));
+}
+
+// Gemini sharpening: the button, or the sharpened photo beside its original to compare.
+function sharpness(post, c) {
+  if (!c.photo.enhanced) {
+    return `<h3>Sharpness</h3><div class="row"><button type="button" data-enhance="1">${icon('bolt', 16)}Sharpen with Gemini</button>
+      <span class="hint">${c.photo.w < 1000 ? `This photo is ${c.photo.w}px wide and will look soft. ` : ''}Sends it to Google's Gemini, about US$0.05. The car must stay exactly as it is.</span></div>`;
+  }
+  const s = post.sharpened?.[ui.sel], o = c.photo.original;
+  return `<h3>Sharpened by Gemini</h3>
+    <p class="hint">From ${o.w}×${o.h} to ${c.photo.w}×${c.photo.h}. Compare the two: the car must look exactly as it is, with nothing added, removed or repaired. Then look at the plates again.</p>
+    ${s?.original && s?.now ? `<div class="compare sharp"><figure><a href="${esc(s.original)}" target="_blank" rel="noopener"><img src="${esc(s.original)}" alt="Original photo"></a><figcaption>Original</figcaption></figure>
+      <figure><a href="${esc(s.now)}" target="_blank" rel="noopener"><img src="${esc(s.now)}" alt="Sharpened photo"></a><figcaption>Sharpened (click to open full size)</figcaption></figure></div>` : ''}
+    <button type="button" data-enhance="0">${icon('back', 16)}Use the original</button>`;
 }
 
 // Photo placement, mirrored from templates/shared.js, to map preview pixels to image percentages.

@@ -147,3 +147,10 @@ test('qa: an unreachable site is not reported as a withdrawn lot', async () => {
   assert.ok(f.includes('source-unavailable'));
   assert.ok(!f.includes('lot-gone'));
 });
+
+test('qa: a photo sharpened by Gemini is flagged to compare with the original, and is no longer soft', async () => {
+  const f = await runQA(post({ cards: [card({ photo: { source: 'auction', w: 2048, h: 1536, original: { w: 640, h: 480 }, enhanced: { model: 'm' } } })] }));
+  assert.ok(f.some((x) => x.id === 'sharpened') && !f.some((x) => x.id === 'low-res'), f.map((x) => x.id).join(','));
+  assert.match(f.find((x) => x.id === 'sharpened').message, /^Look at card 1 beside the original photo/);
+  assert.match((await runQA(post({ cards: [card({ photo: { source: 'own', w: 640, h: 480 } })] })))[0].message, /Sharpen it with Gemini/);
+});

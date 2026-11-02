@@ -29,7 +29,7 @@ test('stock: own photos only, price on the pill, gallery cards after the hero', 
   assert.ok(p.cards.every((c) => c.photo.source === 'own' && c.photo.url.includes('amazonaws.com/nichibo/')));
   assert.equal(p.cards[0].slots.chip, '£8,400');
   assert.equal(p.cards[0].slots.pill, 'IN STOCK IN JAPAN');
-  assert.match(p.cards[0].slots.feat, /^Shipping included · 14,000 km/);
+  assert.match(p.cards[0].slots.feat, /^Shipping Included · 14,000 km/);
   assert.match(p.caption.a, /£8,400, shipping included/);
 });
 
@@ -67,7 +67,7 @@ test('how-it-works: 4 cards, ports from the market', async () => {
   const p = await buildPost({ market: 'uk', topic: 'how-it-works', params: {}, plannedFor: '2026-11-04' }, deps());
   assert.equal(p.cards.length, 4);
   assert.match(p.cards[3].slots.body, /Southampton or Portbury/);
-  assert.match(p.cards[0].slots.title, /UK buyers/);
+  assert.equal(p.cards[0].slots.title, "Japan's Car Auctions, Open To UK Buyers");
   assert.ok(p.cards.every((c) => c.photo.source === 'own'));
 });
 
@@ -90,5 +90,5 @@ test('stock: acronyms in the features line keep their capitals', async () => {
   const awd = stock.map((s) => (s.slug === '2021-honda-n-box-12051' ? { ...s, drive: '4WD', fuel: 'Hybrid' } : s));
   const d = deps(); d.source.getStockList = async () => awd;
   const p = await buildPost({ market: 'uk', topic: 'stock-spotlight', params: { stockSlug: '2021-honda-n-box-12051' }, plannedFor: '2026-11-04' }, d);
-  assert.match(p.cards[0].slots.feat, /hybrid AWD/);
+  assert.match(p.cards[0].slots.feat, /Hybrid AWD/);
 });

@@ -106,3 +106,20 @@ test('dates: today() uses the local calendar date', async () => {
   const d = new Date(2026, 10, 2, 1, 0);   // 1 am on 2 Nov, local time
   assert.equal(today(d), '2026-11-02');
 });
+
+test('case: every word on a picture starts with a capital, and nothing else changes', async () => {
+  const { capitalWords } = await import('../lib/text/case.js');
+  const cases = [
+    ['Room for seven', 'Room For Seven'],
+    ['Pocket-sized 4x4', 'Pocket-Sized 4x4'],
+    ['4WD · alloy wheels · 2.5 diesel', '4WD · Alloy Wheels · 2.5 Diesel'],
+    ['Look up: glass roof', 'Look Up: Glass Roof'],
+    ["Japan's car auctions, open to UK buyers", "Japan's Car Auctions, Open To UK Buyers"],
+    ['6-speed manual · 660cc · low km', '6-Speed Manual · 660cc · Low km'],
+    ['A-grade inside and out', 'A-Grade Inside And Out'],
+    ['"the original" Godzilla', '"The Original" Godzilla'],
+    ['hybrid AWD · 8 seats', 'Hybrid AWD · 8 Seats'],
+    ['', ''],
+  ];
+  for (const [from, to] of cases) assert.equal(capitalWords(from), to, from);
+});

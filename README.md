@@ -44,6 +44,13 @@ The first start installs two small packages: `playwright-core` drives your insta
 
    Each Page rotates through its site categories plus about 25 **themes** (brands such as Toyota or Honda, models such as Land Cruiser or Jimny, and filters such as manual, diesel 4x4, grade 5, nearly new or eight seats). Never-posted ones come first, then the one the Page has gone longest without. Nothing repeats on a Page within 21 days, counting weeks already planned, and two Pages never share one on the same day. Change or drop any slot.
 2. **Build (the day before posting):** press **Build tomorrow** in the top bar. Auction lots change every day, so build late. If a theme has no lots that day, Barnstorm switches to the next one in the rotation and says so on the slot.
+
+   Changed your mind about a built post? On the **Plan** it has three buttons:
+   - **Rebuild:** builds it again with the same theme and other cars.
+   - **⇄ (change):** rebuilds it with another topic, theme or date.
+   - **× (remove):** takes it off the Plan, so the day is free to build again.
+
+   The new post is built before the old one comes off, so a failed rebuild changes nothing. A post you reject in the studio frees its day by itself, and its cars are kept out of the next build. Old posts go under **Posts → Rejected**. Removing or rebuilding doesn't count as a rejection, so Learn doesn't hold it against the theme. Published posts stay put.
 3. **Stamp:** open each post from Feeds or **Posts**. The studio shows it inside real Facebook and Instagram frames.
    - Hooks, features and photos can be swapped card by card.
    - Every save is a new version, and you can compare versions.
@@ -70,7 +77,8 @@ Every picture is made twice: **1080×1080 for Facebook** and **1080×1440 (3:4) 
 ## Rules it follows
 
 - **Facts:** every number comes from the listing. Before approval, every lot is re-read from the site, and a changed or withdrawn lot blocks approval.
-- **Lot cards:** no landed price, and no "this week" (auctions update daily). Lot cards lead with a hook from the car's selling points.
+- **Lot cards:** no landed price, and no "this week" (auctions update daily). Lot cards lead with a hook from the car's selling points. Cars graded R or RA (repair history) are never picked.
+- **Capitals on the pictures:** every word of the hook, the features line and an info card's title starts with a capital ("Room For Seven", "4WD · 5-Speed Manual · Keyless Entry"), including anything you type in the Text tab. Short forms (JDM, 4WD, GR), numbers (4x4, 660cc) and km stay as they are. Body text and captions stay in normal sentences.
 - **Words:** the About kit's banned words block approval, including "best", "premium", "guaranteed", "no hidden costs", "we clear customs" and "pay nothing". Edit the list in **Settings → Words to avoid**.
 - **Per market:**
   - US copy says every car is at least 25 years old from its build month.
@@ -88,11 +96,18 @@ Tokens are saved only on this PC, in `%APPDATA%\CarbarnContentEngine\secrets.jso
 
 An optional **Anthropic API key** adds **Polish the chosen caption with Claude**. The rewrite is refused if it changes a number, drops the link or a hashtag, or uses a banned word.
 
+An optional **Gemini API key** (from aistudio.google.com/apikey) sharpens soft photos. Paste it in **Settings → Connections → Gemini** and press **Save key**: Barnstorm checks it with Google first, then saves it in the same secrets file, never in this folder. There is no `.env` file.
+
+- **What it does:** every photo narrower than 1000 px (most auction photos are 640×480) is sent to Gemini when a post is built, and comes back as a sharper 2K version. About US$0.05 a photo, billed to the Google account; the same photo is never paid for twice.
+- **What it must not do:** Gemini is told to change nothing about the car (every scratch, dent, badge and wheel stays), to keep the framing, to keep all text and logos (watermarks included) and to keep blurred plates blurred. A picture that comes back smaller or a different shape is refused, and the original is used.
+- **Your check:** every sharpened photo gets a warning to compare it with the original. The **Photo** tab shows the two side by side, with **Use the original** to put it back. The plates check starts again. If Gemini fails, the post is built with the original photo and says why.
+- **Settings:** untick **Sharpen soft photos automatically** to sharpen only when you press **Sharpen with Gemini** in the Photo tab. The model, the size and the 1000 px threshold are in `config/photos.json`.
+
 ## Where things live
 
 | Path | What |
 |---|---|
-| `config/*.json` | markets (with each Page's themes), themes (`collections.json`), hooks, word rules, schedule, seed history, app name. Editable in Settings. |
+| `config/*.json` | markets (with each Page's themes), themes (`collections.json`), hooks, word rules, schedule, seed history, app name, photo sharpening (`photos.json`). Editable in Settings. |
 | `templates/` | the card designs (HTML), bundled Montserrat font, logos in `assets/` |
 | `data/posts/<id>/v<n>/` | every version of every post, with its square and `ig/` pictures |
 | `data/plans/`, `data/log.jsonl`, `data/learn.json` | plans, the activity log, accepted and dismissed suggestions |
@@ -112,7 +127,7 @@ An optional **Anthropic API key** adds **Polish the chosen caption with Claude**
 
 ## For a developer
 
-- Run `npm test` for 163 tests (including browser smoke tests of every screen), using Node's built-in runner.
+- Run `npm test` for 182 tests (including browser smoke tests of every screen), using Node's built-in runner.
 - Run `node scripts/check-sources.js` for a live check of all five sites.
 - Run `node scripts/e2e.mjs <dataDir> <date> <topic> <market[:category]>…` to build against live data.
 - Run `npm run check-private` before every push, or enable the hook once with `git config core.hooksPath .githooks`. `data/` and every secret stay on this computer.
