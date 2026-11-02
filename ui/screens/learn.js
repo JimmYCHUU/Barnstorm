@@ -3,7 +3,7 @@ import { api, esc, toast, marketName, shortMarket, $$ } from '../lib.js';
 import { icon } from '../icons.js';
 
 const KIND = { 'hook-library': 'Hook for a model', 'hook-rule': 'Hook rule', 'never-phrase': 'Phrase to avoid', 'category-weight': 'Category' };
-const EVENT = { created: 'Built', approved: 'Stamped', rejected: 'Rejected', removed: 'Removed from the Plan', edited: 'Edited', exported: 'Exported', published: 'Published', 'publish-mock': 'Rehearsed a publish', reopened: 'Reopened', swapped: 'Swapped a car', rechecked: 'Re-checked' };
+const EVENT = { created: 'Built', approved: 'Stamped', rejected: 'Rejected', removed: 'Removed from the Plan', redrawn: 'Redrawn with the new design', edited: 'Edited', exported: 'Exported', published: 'Published', 'publish-mock': 'Rehearsed a publish', reopened: 'Reopened', swapped: 'Swapped a car', rechecked: 'Re-checked' };
 
 export async function render(view, data) {
   const d = data || await api('GET', '/api/learn');

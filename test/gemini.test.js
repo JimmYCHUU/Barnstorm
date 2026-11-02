@@ -53,7 +53,32 @@ test('gemini: explains a bad key, a blocked picture and a quota in plain words',
   writeSecrets({ gemini: { apiKey: 'k' } });
   await assert.rejects(enhancePhoto(photo(), { w: 640, h: 480 }, { fetchFn: answer(400, { error: { status: 'INVALID_ARGUMENT', details: [{ reason: 'API_KEY_INVALID' }] } }) }), /not valid/);
   await assert.rejects(enhancePhoto(photo(), { w: 640, h: 480 }, { fetchFn: answer(200, { promptFeedback: { blockReason: 'OTHER' } }) }), /no picture \(OTHER\)/);
-  await assert.rejects(enhancePhoto(photo(), { w: 640, h: 480 }, { fetchFn: answer(429, { error: { status: 'RESOURCE_EXHAUSTED' } }) }), /quota/);
+  await assert.rejects(enhancePhoto(photo(), { w: 640, h: 480 }, { fetchFn: answer(429, { error: { status: 'RESOURCE_EXHAUSTED' } }), sleep: async () => {} }), /rate limit/);
   await assert.rejects(checkGeminiKey('bad', { fetchFn: answer(403, { error: { status: 'PERMISSION_DENIED' } }) }), /not valid/);
   await checkGeminiKey('good', { fetchFn: answer(200, { name: 'models/gemini-nano-banana-2.1' }) });
 });
+
+// What Google sends when the key's project has no billing: image models have no free use, so the limit is 0.
+const noBilling = { error: { code: 429, status: 'RESOURCE_EXHAUSTED', message: 'You exceeded your current quota, please check your plan and billing details. Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-nano-banana-2.1',
+  details: [{ '@type': 'type.googleapis.com/google.rpc.QuotaFailure', violations: [{ quotaMetric: 'generativelanguage.googleapis.com/generate_content_free_tier_requests', quotaId: 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier' }] },
+    { '@type': 'type.googleapis.com/google.rpc.RetryInfo', retryDelay: '37s' }] } };
+
+test('gemini: a key with no billing says so in plain words, and is not tried again', async () => {
+  writeSecrets({ gemini: { apiKey: 'k' } });
+  let calls = 0;
+  const fetchFn = async () => { calls++; return answer(429, noBilling)(); };
+  await assert.rejects(enhancePhoto(photo(), { w: 640, h: 480 }, { fetchFn, sleep: async () => {} }), /billing/);
+  assert.equal(calls, 1);
+});
+
+test('gemini: a real rate limit waits as long as Google asks, then tries again', async () => {
+  writeSecrets({ gemini: { apiKey: 'k' } });
+  const waits = [];
+  let calls = 0;
+  const busy = { error: { code: 429, status: 'RESOURCE_EXHAUSTED', message: 'Resource has been exhausted (e.g. check quota).', details: [{ '@type': 'type.googleapis.com/google.rpc.RetryInfo', retryDelay: '2s' }] } };
+  const fetchFn = async () => (++calls === 1 ? answer(429, busy)() : answer(200, picture(2048, 1536))());
+  const r = await enhancePhoto(photo(), { w: 640, h: 480 }, { fetchFn, sleep: async (ms) => { waits.push(ms); } });
+  assert.equal(r.w, 2048);
+  assert.deepEqual(waits, [2000]);
+});
+

@@ -148,3 +148,35 @@ test('ui: Settings has a place for the Gemini key and the automatic sharpening s
   assert.deepEqual(r.errors, []);
   assert.match(r.text, /Gemini/);
 });
+
+test('ui: the same warning on several cards shows as one line', async () => {
+  const { flagList } = await import('../ui/lib.js');
+  const html = flagList([1, 2, 3, 4].map((n) => ({ severity: 'warn', card: n - 1, message: `Soft photo on card ${n}: 640px wide. Sharpen with Gemini or pick another photo (Photo tab).` }))
+    .concat([1, 2].map((n) => ({ severity: 'warn', card: n - 1, message: `Gemini could not sharpen card ${n} (original photo kept). Turn on billing.` }))));
+  assert.equal((html.match(/class="flag /g) || []).length, 2);
+  assert.match(html, /Soft photo on cards 1, 2, 3 and 4: 640px wide/);
+  assert.match(html, /Gemini could not sharpen cards 1 and 2 \(original photo kept\)/);
+});
+
+test('ui: a blur box is drawn by clicking the four corners of a slanted plate, in any order', async () => {
+  const r = await open(`post/${postId}`, async (page) => {
+    await page.click('[data-tab=photo]');
+    await page.click('#drawb');
+    const box = await page.locator('#cv').boundingBox();
+    const at = (x, y) => page.mouse.click(box.x + box.width * x, box.y + box.height * y);
+    await at(0.30, 0.50); await at(0.42, 0.55); await at(0.40, 0.62);
+    await page.click('#cv', { button: 'right', position: { x: box.width * 0.4, y: box.height * 0.62 } });   // takes back the third corner
+    await at(0.29, 0.58); await at(0.41, 0.63);
+    await page.waitForSelector('#saveb');
+    await page.click('#saveb');
+    await page.waitForSelector('#saveb', { state: 'detached' });   // the studio redraws once the server has saved
+  });
+  assert.deepEqual(r.errors, []);
+  const p = await (await fetch(`${base}/api/posts/${postId}`)).json();
+  const b = p.cards[0].blur.at(-1);
+  assert.equal(b.pts.length, 4);
+  const cross = (o, a, c) => (a.x - o.x) * (c.y - o.y) - (a.y - o.y) * (c.x - o.x);
+  const turns = b.pts.map((q, i) => Math.sign(cross(q, b.pts[(i + 1) % 4], b.pts[(i + 2) % 4])));
+  assert.ok(turns.every((t) => t === turns[0]), `corners go round the plate, not across it: ${JSON.stringify(b.pts)}`);
+  assert.ok(b.pts.every((q) => q.x >= b.x && q.x <= b.x + b.w && q.y >= b.y && q.y <= b.y + b.h), 'the box holds its corners');
+});

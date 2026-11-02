@@ -71,15 +71,15 @@ export const avatar = (logo, cls = '') => `<span class="av ${cls}"><img src="/as
 
 export function flagList(flags) {
   if (!flags?.length) return `<div class="flag info">${icon('check', 18)}<span>All clear: every check passed.</span></div>`;
-  // The same "look at card N" check on several cards reads as one line.
-  const groups = new Map();
+  // The same check on several cards reads as one line: "Soft photo on cards 1, 2, 3 and 4".
+  const CARD = /\bcard (\d+)\b/, groups = new Map();
   flags.forEach((f, i) => {
-    const n = /^Look at card (\d+) /.exec(f.message)?.[1], key = n ? f.severity + f.message.replace(n, '#') : i;
+    const n = CARD.exec(f.message)?.[1], key = n ? f.severity + f.message.replace(CARD, 'card #') : i;
     if (!groups.has(key)) groups.set(key, { f, i, cards: [] });
     if (n) groups.get(key).cards.push(n);
   });
   return [...groups.values()].map(({ f, i, cards }) => {
-    const msg = cards.length > 1 ? f.message.replace(/^Look at card \d+ /, `Look at cards ${cards.slice(0, -1).join(', ')} and ${cards.at(-1)} `) : f.message;
+    const msg = cards.length > 1 ? f.message.replace(CARD, `cards ${cards.slice(0, -1).join(', ')} and ${cards.at(-1)}`) : f.message;
     return `<div class="flag ${f.severity}${f.card != null ? ' clickable' : ''}" data-flag="${i}">
     ${icon(f.severity === 'error' ? 'alert' : f.severity === 'warn' ? 'info' : 'check', 18)}<span>${esc(msg)}</span></div>`;
   }).join('');

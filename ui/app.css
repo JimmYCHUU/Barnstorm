@@ -92,6 +92,7 @@ button.chip{cursor:pointer;height:28px} button.chip:hover{background:var(--blue-
 .flag .ic{margin-top:1px}
 .flag.error{background:var(--red-wash);color:#7E1F17} .flag.warn{background:var(--amber-wash);color:#5E3C00} .flag.info{background:var(--blue-wash);color:#0A3F7E}
 .flag.clickable{cursor:pointer} .flag.clickable:hover{filter:brightness(.97)}
+.flag.redraw{align-items:center;margin-bottom:16px} .flag.redraw button{margin-left:auto;flex:none}
 .empty{display:grid;justify-items:start;gap:8px;padding:28px;border:1px dashed var(--line);border-radius:var(--r-l);color:var(--muted);background:var(--sunk)}
 .empty b{color:var(--ink);font-size:15px}
 

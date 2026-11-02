@@ -4,9 +4,9 @@ import { icon } from '../icons.js';
 import { crumbs } from '../app.js';
 
 const ui = { id: null, sel: 0, tab: 'card', blurDraft: null, compare: null, fmt: 'ig' };
-const STAGE = { 'lot-card': 736 };
-const SLOT_LABEL = { hook: 'Hook (big line)', model: 'Model', feat: 'Features line', km: 'Mileage pill', chip: 'Pill on the right', grade: 'Grade badge',
-  pill: 'Photo pill', eyebrow: 'Small heading', title: 'Title', body: 'Body text', tag: 'Photo pill', note: 'Note', totalLabel: 'Total label', total: 'Total' };
+const STAGE = { 'lot-card': { square: 810, ig: 810 } };   // photo height, as in templates/lot-card.html
+const SLOT_LABEL = { hook: 'Hook (big line)', model: 'Car name', feat: 'Features (for the caption, not on the picture)', km: 'Mileage chip',
+  chip: 'Price (older design)', grade: 'Grade chip', pill: 'Line on the right of the bar', eyebrow: 'Small heading', title: 'Title', body: 'Body text', tag: 'Photo pill', note: 'Note', totalLabel: 'Total label', total: 'Total' };
 const TABS = [['card', 'text', 'Text'], ['photo', 'image', 'Photo'], ['caption', 'caption', 'Caption'], ['history', 'history', 'History']];
 const SPLIT_AT = 760;   // inspector width (px) from which the caption gets its own column instead of a tab
 const chosenCaption = (post) => post.caption?.[post.caption?.chosen || 'a'] || '';
@@ -59,6 +59,8 @@ function draw(view, post, measured = false) {
         ${post.status === 'draft' ? `<button class="danger" id="reject">${icon('x', 16)}Reject</button><button class="primary ${errors ? 'blocked' : ''}" id="approve" aria-disabled="${errors ? 'true' : 'false'}" ${errors ? 'title="Fix the red checks first"' : ''}>${icon('stamp', 16)}${errors ? `Approve · ${errors} to fix` : 'Approve'}</button>`
           : post.status === 'published' ? '' : `<button id="reopen">${icon('back', 16)}Back to draft</button>`}
       </div></div>
+    ${post.designOutdated ? `<div class="flag info redraw">${icon('refresh', 18)}<span>These pictures use an earlier card design.${['approved', 'exported'].includes(post.status) ? ' Redrawing sends the post back to draft for a new stamp.' : ''}</span>
+      <button class="small" id="redraw">Redraw with the new design</button></div>` : ''}
     <div class="studio">
       <div class="film ${ui.fmt === 'ig' ? '' : 'sq'}">${imgs(post).map((src, i) => `<button class="${i === ui.sel ? 'on' : ''}" data-sel="${i}" title="Card ${i + 1}"><img src="${src}?v=${post.version}" alt="Card ${i + 1}">${dot(i)}</button>`).join('')}</div>
       <div class="stage ${ui.fmt === 'ig' ? '' : 'sq'}">
@@ -80,6 +82,8 @@ function draw(view, post, measured = false) {
   if (split !== !!ui.split && !measured) { ui.split = split; return draw(view, post, true); }
 
   $('#copycap', view).onclick = (e) => copyText(chosenCaption(post), e.currentTarget);
+  const rd = $('#redraw', view);
+  if (rd) rd.onclick = () => act(view, 'Redrawing every picture with the new design…', () => api('POST', `/api/posts/${post.id}/redraw`));
   $$('[data-fmt]', view).forEach((b) => (b.onclick = () => { ui.fmt = b.dataset.fmt; ui.blurDraft = null; draw(view, post); }));
   $$('[data-sel]', view).forEach((b) => (b.onclick = () => { ui.sel = Number(b.dataset.sel); ui.blurDraft = null; draw(view, post); }));
   $$('[data-tab]', view).forEach((b) => (b.onclick = () => { ui.tab = b.dataset.tab; draw(view, post); }));
@@ -131,7 +135,7 @@ function cardTab(view, tab, post, c) {
       ${k === 'body' ? `<textarea name="${k}" style="min-height:90px">${esc(c.slots[k])}</textarea>` : `<input type="text" name="${k}" value="${esc(c.slots[k])}">`}
       ${k === 'hook' && c.hookOptions?.length ? `<span class="row">${c.hookOptions.map((h) => `<button type="button" class="chip" data-hook="${esc(h.text)}" title="from ${esc(h.source)}">${esc(h.text)}</button>`).join('')}</span>` : ''}
     </label>`).join('')}
-    <div class="row"><button class="primary">Save text</button><span class="hint">Only this picture is re-rendered, in both formats. Every word of the hook, features line and title starts with a capital on the picture.</span></div></form>
+    <div class="row"><button class="primary">Save text</button><span class="hint">Only this picture is re-rendered, in both formats. On the picture, every word of the hook, car name and title starts with a capital.</span></div></form>
     ${f.id ? `<h3>From the listing</h3><table class="facts">
       <tr><th>Lot</th><td><a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.id)} · ${esc(f.title)}</a></td></tr>
       <tr><th>Auction</th><td>${esc(f.auctionHouse || '')} · ${nice(f.auctionDate)}</td></tr>
@@ -171,12 +175,13 @@ function photoTab(view, tab, post, c) {
   const opts = photoOptions(c), blur = ui.blurDraft || c.blur || [];
   tab.innerHTML = `
     <label class="inline"><input type="checkbox" id="plates" ${c.platesChecked ? 'checked' : ''}> Plates checked: no readable number plate on this card</label>
-    <p class="hint">${c.photo.source === 'auction' ? 'Auction-house photo: plates are usually blurred already, but not always.' : 'Carbarn\'s own yard photo (rights-safe), but its plates are not blurred.'} Look at the preview, draw a blur box over anything readable, then tick.</p>
+    <p class="hint">${c.photo.source === 'auction' ? 'Auction-house photo: plates are usually blurred already, but not always.' : 'Carbarn\'s own yard photo (rights-safe), but its plates are not blurred.'} Look at the preview, blur anything readable, then tick.</p>
     ${sharpness(post, c)}
     <h3>Blur boxes</h3>
     <div class="row"><button type="button" id="drawb">${ui.blurDraft ? 'Stop drawing' : 'Draw a blur box'}</button>
       ${ui.blurDraft ? '<button type="button" class="primary" id="saveb">Save blur boxes</button>' : ''}
       <span class="hint">${blur.length} box${blur.length === 1 ? '' : 'es'}</span></div>
+    ${ui.blurDraft ? '<p class="hint">Click the four corners of the plate on the preview, following its slant. Right-click takes back the last corner. Add as many boxes as you need, then save.</p>' : ''}
     ${blur.map((b, i) => `<div class="row"><span class="muted">Box ${i + 1}</span><button type="button" class="small danger" data-rmb="${i}">Remove</button></div>`).join('')}
     <h3>Crop</h3>
     <div class="grid g3"><label>Left / right<input type="range" min="0" max="100" value="${c.focus?.x ?? 50}" id="fx"></label>
@@ -219,10 +224,21 @@ function sharpness(post, c) {
 // Photo placement, mirrored from templates/shared.js, to map preview pixels to image percentages.
 function placement(c) {
   const ig = ui.fmt === 'ig', W = 1080, nw = c.photo.w, nh = c.photo.h;
-  const H = (ig ? c.igStageH : c.stageH) || STAGE[c.template] || 736, contain = ig && c.igfit === 'contain';
+  const H = STAGE[c.template]?.[ig ? 'ig' : 'square'] || (ig ? c.igStageH : c.stageH) || 736, contain = ig && c.igfit === 'contain';
   const s = contain ? Math.min(W / nw, H / nh) : Math.max(W / nw, H / nh) * Math.max(1, c.zoom || 1), dw = nw * s, dh = nh * s;
   return { H, dw, dh, left: contain ? (W - dw) / 2 : -(dw - W) * (c.focus?.x ?? 50) / 100, top: contain ? H - dh : -(dh - H) * (c.focus?.y ?? 50) / 100 };
 }
+
+// Plates are seldom square to the camera, so a blur box is drawn by clicking its four corners (Jim, 2 Nov 2026).
+// Kept in % of the photo: the corners (pts) and the box around them (x, y, w, h), which older boxes have alone.
+// The corners are put in order around their middle, so any click order makes a plain four-sided shape.
+function quad(pts) {
+  const mx = pts.reduce((s, p) => s + p.x, 0) / pts.length, my = pts.reduce((s, p) => s + p.y, 0) / pts.length;
+  const ring = [...pts].sort((a, b) => Math.atan2(a.y - my, a.x - mx) - Math.atan2(b.y - my, b.x - mx));
+  const xs = ring.map((p) => p.x), ys = ring.map((p) => p.y), x = Math.min(...xs), y = Math.min(...ys);
+  return { x, y, w: Math.max(...xs) - x, h: Math.max(...ys) - y, pts: ring };
+}
+const corners = (b) => b.pts || [{ x: b.x, y: b.y }, { x: b.x + b.w, y: b.y }, { x: b.x + b.w, y: b.y + b.h }, { x: b.x, y: b.y + b.h }];
 
 function overlay(view, post, c) {
   const pv = $('#pv', view), cv = $('#cv', view);
@@ -231,29 +247,35 @@ function overlay(view, post, c) {
   cv.width = size; cv.height = tall;
   const g = cv.getContext('2d'), P = placement(c);
   const boxes = ui.blurDraft || (ui.tab === 'photo' ? c.blur || [] : []);
-  const paint = (extra) => {
+  const toPx = (p) => [(P.left + p.x / 100 * P.dw) * k, (P.top + p.y / 100 * P.dh) * k];
+  const pct = (v) => Math.min(100, Math.max(0, v));
+  const toPhoto = ([x, y]) => ({ x: pct((x / k - P.left) / P.dw * 100), y: pct((Math.min(y / k, P.H) - P.top) / P.dh * 100) });
+  const clicks = [];   // corners clicked so far, in preview pixels
+  const shape = (pts, close) => { g.beginPath(); pts.forEach(([x, y], j) => (j ? g.lineTo(x, y) : g.moveTo(x, y))); if (close) g.closePath(); };
+  const paint = (pointer) => {
     g.clearRect(0, 0, size, tall);
     g.setLineDash([6, 4]); g.lineWidth = 2; g.strokeStyle = '#0473EA'; g.fillStyle = 'rgba(4,115,234,.15)';
-    for (const b of boxes) {
-      const x = (P.left + b.x / 100 * P.dw) * k, y = (P.top + b.y / 100 * P.dh) * k;
-      g.fillRect(x, y, b.w / 100 * P.dw * k, b.h / 100 * P.dh * k); g.strokeRect(x, y, b.w / 100 * P.dw * k, b.h / 100 * P.dh * k);
-    }
-    if (extra) { g.strokeStyle = '#c62828'; g.strokeRect(extra.x, extra.y, extra.w, extra.h); }
+    for (const b of boxes) { shape(corners(b).map(toPx), true); g.fill(); g.stroke(); }
+    if (!clicks.length) return;
+    g.setLineDash([]); g.strokeStyle = g.fillStyle = '#c62828';
+    shape(pointer ? [...clicks, pointer] : clicks, false); g.stroke();
+    for (const [x, y] of clicks) { g.beginPath(); g.arc(x, y, 4, 0, 2 * Math.PI); g.fill(); }
   };
   paint();
   pv.classList.toggle('drawing', !!ui.blurDraft);
-  if (!ui.blurDraft) { cv.onmousedown = null; return; }
+  cv.onmousedown = cv.onmousemove = cv.oncontextmenu = null;
+  if (!ui.blurDraft) return;
+  const at = (e) => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  cv.onmousemove = (e) => paint(at(e));
+  cv.oncontextmenu = (e) => { e.preventDefault(); clicks.pop(); paint(at(e)); };   // right-click takes back the last corner
   cv.onmousedown = (e) => {
-    const r = cv.getBoundingClientRect(), x0 = e.clientX - r.left, y0 = e.clientY - r.top;
-    let rect = null;
-    cv.onmousemove = (ev) => { rect = { x: Math.min(x0, ev.clientX - r.left), y: Math.min(y0, ev.clientY - r.top), w: Math.abs(ev.clientX - r.left - x0), h: Math.abs(ev.clientY - r.top - y0) }; paint(rect); };
-    window.onmouseup = () => {
-      cv.onmousemove = null; window.onmouseup = null;
-      if (!rect || rect.w < 4 || rect.h < 4) return paint();
-      const cx = rect.x / k, cy = Math.min(rect.y / k, P.H), cw = rect.w / k, ch = Math.min(rect.h / k, P.H - cy);
-      boxes.push({ x: (cx - P.left) / P.dw * 100, y: (cy - P.top) / P.dh * 100, w: cw / P.dw * 100, h: ch / P.dh * 100 });
-      draw(view, post);   // ui.blurDraft is `boxes`, so the new box stays; this refreshes the count and Save button
-    };
+    if (e.button !== 0) return;
+    clicks.push(at(e));
+    if (clicks.length < 4) return paint(at(e));
+    const xs = clicks.map((p) => p[0]), ys = clicks.map((p) => p[1]);
+    if (Math.max(...xs) - Math.min(...xs) < 4 || Math.max(...ys) - Math.min(...ys) < 4) { clicks.length = 0; return paint(); }
+    boxes.push(quad(clicks.map(toPhoto)));
+    draw(view, post);   // ui.blurDraft is `boxes`, so the new box stays; this refreshes the count and Save button
   };
 }
 

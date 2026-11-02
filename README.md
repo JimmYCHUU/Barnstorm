@@ -56,7 +56,7 @@ The first start installs two small packages: `playwright-core` drives your insta
    - Every save is a new version, and you can compare versions.
    - Fix anything red in **Checks**, then **Approve**: the post gets the approval stamp.
    - **Copy caption** above the preview copies the chosen caption, hashtags included. On a wide screen the caption sits in its own column beside the editor, with a **Copy** button on each version.
-   - Tick **Plates checked** after looking at each picture. Draw a blur box over any readable number plate.
+   - Tick **Plates checked** after looking at each picture. To blur a readable number plate, press **Draw a blur box** and click its four corners on the preview, following its slant (right-click takes back a corner).
 4. **Publish:** on **Publish**, choose one route (every post there also has **Copy caption**):
    - **Export posting pack:** writes the pictures and `caption.md` into `posts/<Page>/<date>-<topic>/`. Square pictures are for Facebook; `instagram/` holds 3:4 versions so the Instagram grid shows the whole picture. Upload or schedule them in Meta Business Suite.
    - **Publish now:** goes straight to the Page, once the Page is connected in Settings. Until then the button says **Rehearse publish**: it records exactly what would be sent, and sends nothing.
@@ -77,8 +77,8 @@ Every picture is made twice: **1080×1080 for Facebook** and **1080×1440 (3:4) 
 ## Rules it follows
 
 - **Facts:** every number comes from the listing. Before approval, every lot is re-read from the site, and a changed or withdrawn lot blocks approval.
-- **Lot cards:** no landed price, and no "this week" (auctions update daily). Lot cards lead with a hook from the car's selling points. Cars graded R or RA (repair history) are never picked.
-- **Capitals on the pictures:** every word of the hook, the features line and an info card's title starts with a capital ("Room For Seven", "4WD · 5-Speed Manual · Keyless Entry"), including anything you type in the Text tab. Short forms (JDM, 4WD, GR), numbers (4x4, 660cc) and km stay as they are. Body text and captions stay in normal sentences.
+- **Lot cards:** the whole photo (its area is 4:3, the shape of auction photos, so nothing is cut off) with the logo plate top right, then a Carbarn Blue bar with the hook from the car's selling points, the car's name, GRADE and mileage chips, and the auction day on the right. No price and no web address on any picture, and no "this week" (auctions update daily). Cars graded R or RA (repair history) are never picked.
+- **Capitals on the pictures:** every word of the hook, the car's name, the auction line and an info card's title starts with a capital ("Room For Seven", "Live Auction · Thu 5 Nov"), including anything you type in the Text tab. The capitals are added when the picture is drawn, so the Text tab and the captions keep the words as written. Short forms (JDM, 4WD, GR), numbers (4x4, 660cc) and km stay as they are. Body text and captions stay in normal sentences.
 - **Words:** the About kit's banned words block approval, including "best", "premium", "guaranteed", "no hidden costs", "we clear customs" and "pay nothing". Edit the list in **Settings → Words to avoid**.
 - **Per market:**
   - US copy says every car is at least 25 years old from its build month.
@@ -98,6 +98,7 @@ An optional **Anthropic API key** adds **Polish the chosen caption with Claude**
 
 An optional **Gemini API key** (from aistudio.google.com/apikey) sharpens soft photos. Paste it in **Settings → Connections → Gemini** and press **Save key**: Barnstorm checks it with Google first, then saves it in the same secrets file, never in this folder. There is no `.env` file.
 
+- **Billing first:** Gemini's image models have no free use. The Google project the key belongs to needs billing turned on (aistudio.google.com, API keys, the key's project, Set up billing), or Google refuses every photo and Barnstorm says so.
 - **What it does:** every photo narrower than 1000 px (most auction photos are 640×480) is sent to Gemini when a post is built, and comes back as a sharper 2K version. About US$0.05 a photo, billed to the Google account; the same photo is never paid for twice.
 - **What it must not do:** Gemini is told to change nothing about the car (every scratch, dent, badge and wheel stays), to keep the framing, to keep all text and logos (watermarks included) and to keep blurred plates blurred. A picture that comes back smaller or a different shape is refused, and the original is used.
 - **Your check:** every sharpened photo gets a warning to compare it with the original. The **Photo** tab shows the two side by side, with **Use the original** to put it back. The plates check starts again. If Gemini fails, the post is built with the original photo and says why.
@@ -127,7 +128,7 @@ An optional **Gemini API key** (from aistudio.google.com/apikey) sharpens soft p
 
 ## For a developer
 
-- Run `npm test` for 182 tests (including browser smoke tests of every screen), using Node's built-in runner.
+- Run `npm test` for 187 tests (including browser smoke tests of every screen), using Node's built-in runner.
 - Run `node scripts/check-sources.js` for a live check of all five sites.
 - Run `node scripts/e2e.mjs <dataDir> <date> <topic> <market[:category]>…` to build against live data.
 - Run `npm run check-private` before every push, or enable the hook once with `git config core.hooksPath .githooks`. `data/` and every secret stay on this computer.

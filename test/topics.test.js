@@ -23,13 +23,14 @@ test('photos: own yard photos are told apart from auction photos', () => {
   assert.equal(isOwnPhoto('https://photos.carbarn.com.au/pic/?system=auto&number=1'), false);
 });
 
-test('stock: own photos only, price on the pill, gallery cards after the hero', async () => {
+test('stock: own photos only, mileage on the picture and the price only in the caption, gallery cards after the hero', async () => {
   const p = await buildPost({ market: 'uk', topic: 'stock-spotlight', params: { stockSlug: '2021-honda-n-box-12051' }, plannedFor: '2026-11-04' }, deps());
   assert.ok(p.cards.length >= 2 && p.cards.length <= 4);
   assert.ok(p.cards.every((c) => c.photo.source === 'own' && c.photo.url.includes('amazonaws.com/nichibo/')));
-  assert.equal(p.cards[0].slots.chip, '£8,400');
+  assert.equal(p.cards[0].slots.chip, undefined);
+  assert.equal(p.cards[0].slots.km, '14,000 km');
   assert.equal(p.cards[0].slots.pill, 'IN STOCK IN JAPAN');
-  assert.match(p.cards[0].slots.feat, /^Shipping Included · 14,000 km/);
+  assert.match(p.cards[0].slots.feat, /^Shipping included · 14,000 km/);
   assert.match(p.caption.a, /£8,400, shipping included/);
 });
 
@@ -53,6 +54,7 @@ test('stock: odd grades are hidden and 0 km is not printed', async () => {
   const d = deps(); d.source.getStockList = async () => odd;
   const p = await buildPost({ market: 'uk', topic: 'stock-spotlight', params: { stockSlug: '2021-honda-n-box-12051' }, plannedFor: '2026-11-04' }, d);
   assert.equal(p.cards[0].slots.grade, '');
+  assert.equal(p.cards[0].slots.km, '');
   assert.doesNotMatch(p.cards[0].slots.feat, /0 km/);
   assert.doesNotMatch(p.caption.a, /\b0 km|grade 9/);
 });
@@ -67,7 +69,7 @@ test('how-it-works: 4 cards, ports from the market', async () => {
   const p = await buildPost({ market: 'uk', topic: 'how-it-works', params: {}, plannedFor: '2026-11-04' }, deps());
   assert.equal(p.cards.length, 4);
   assert.match(p.cards[3].slots.body, /Southampton or Portbury/);
-  assert.equal(p.cards[0].slots.title, "Japan's Car Auctions, Open To UK Buyers");
+  assert.match(p.cards[0].slots.title, /UK buyers/);
   assert.ok(p.cards.every((c) => c.photo.source === 'own'));
 });
 
@@ -90,5 +92,5 @@ test('stock: acronyms in the features line keep their capitals', async () => {
   const awd = stock.map((s) => (s.slug === '2021-honda-n-box-12051' ? { ...s, drive: '4WD', fuel: 'Hybrid' } : s));
   const d = deps(); d.source.getStockList = async () => awd;
   const p = await buildPost({ market: 'uk', topic: 'stock-spotlight', params: { stockSlug: '2021-honda-n-box-12051' }, plannedFor: '2026-11-04' }, d);
-  assert.match(p.cards[0].slots.feat, /Hybrid AWD/);
+  assert.match(p.cards[0].slots.feat, /hybrid AWD/);
 });

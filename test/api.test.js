@@ -60,7 +60,7 @@ test('api: patch hook re-renders only that card', async () => {
   renders.length = 0;
   const r = await call('PATCH', `/api/posts/${id}`, { card: 2, slots: { hook: 'Tiny and mighty' } });
   assert.equal(r.status, 200);
-  assert.equal(r.body.cards[2].slots.hook, 'Tiny And Mighty');   // every word on a picture starts with a capital
+  assert.equal(r.body.cards[2].slots.hook, 'Tiny and mighty');
   assert.equal(renders.length, 2);
 });
 

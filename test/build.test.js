@@ -89,7 +89,7 @@ test('store: edit creates a version, locks the slot and re-renders only that car
   d.renders.length = 0;
   const next = await rebuildCard(post, 1, { slots: { hook: 'Tiny and mighty' } }, d);
   assert.equal(next.version, 2);
-  assert.equal(next.cards[1].slots.hook, 'Tiny And Mighty');   // every word on a picture starts with a capital
+  assert.equal(next.cards[1].slots.hook, 'Tiny and mighty');
   assert.ok(next.cards[1].locked.includes('hook'));
   assert.equal(d.renders.length, 2);
   assert.ok(d.renders.some((r) => r.includes(`${path.sep}ig${path.sep}card-1.png`)));
@@ -187,14 +187,21 @@ test('rebuild: "Use the original" puts the photo back, and "Sharpen" brings Gemi
   assert.equal(again.cards[0].noSharpen, undefined);
 }));
 
-test('build: the hook, the features line and their options start every word with a capital', async () => {
+test('build: the picture starts every word of the hook, the car name and the auction line with a capital; the stored text stays as written', async () => {
+  const { cardSpec } = await import('../lib/build.js');
   const post = await buildPost({ market: 'uk', topic: 'live-lots', params: { category: 'kei-cars' }, plannedFor: '2026-11-02' }, deps());
-  const lower = (s) => String(s).split(/[s-]+/).filter((w) => /^[a-z]/.test(w) && !['km', 'cc'].includes(w));
-  for (const card of post.cards) {
-    assert.deepEqual(lower(card.slots.hook), [], card.slots.hook);
-    assert.deepEqual(lower(card.slots.feat), [], card.slots.feat);
-    for (const h of card.hookOptions || []) assert.deepEqual(lower(h.text), [], h.text);
+  const lower = (s) => String(s).split(/[\s-]+/).filter((w) => /^[a-z]/.test(w) && !['km', 'cc'].includes(w));
+  assert.ok(post.cards.some((c) => lower(c.slots.feat).length), 'stored features keep their small letters for the caption');
+  assert.ok(post.cards.every((c) => c.slots.pill.startsWith('LIVE AUCTION · ')), 'the stored auction line keeps its capitals for the checks');
+  for (const fmt of ['square', 'ig']) {
+    for (const card of post.cards) {
+      const s = cardSpec({ ...card, slots: { ...card.slots, model: '2022 suzuki jimny xc' } }, market('uk'), fmt).slots;
+      assert.equal(s.model, '2022 Suzuki Jimny Xc');
+      assert.deepEqual(lower(s.hook), [], s.hook);
+      assert.match(s.pill, /^Live Auction · Tue 3 Nov$/);
+    }
   }
+  assert.doesNotMatch(post.caption.a, /with (an? )?[a-z]+ [A-Z][a-z]/, 'no "with alloy Wheels" in the caption');
 });
 
 
@@ -204,4 +211,18 @@ test('pick: R and RA grade cars (repair history) are never put in a post', () =>
   assert.ok(scoreLot(lot('2', 'RA')) < 0);
   assert.ok(scoreLot(lot('3', '3.5')) >= 0);
   assert.deepEqual(pickLots([lot('1', 'R'), lot('2', 'RA'), lot('3', '3.5'), lot('4', '4')], 4).map((l) => l.id).sort(), ['3', '4']);
+});
+
+test('redraw: a post drawn with an earlier card design is drawn again whole, and a stamped one goes back to draft', async () => {
+  const { redraw, DESIGN } = await import('../lib/build.js');
+  const d = deps();
+  const post = await buildPost({ market: 'uk', topic: 'live-lots', params: { category: 'kei-cars' }, plannedFor: '2026-11-02' }, d);
+  assert.equal(post.design, DESIGN);
+  d.renders.length = 0;
+  const again = await redraw({ ...post, design: 1, status: 'approved', caption: { ...post.caption, a: 'old wording' } }, d);
+  assert.notEqual(again.caption.a, 'old wording', 'an unedited caption is written again');
+  assert.equal(d.renders.length, post.cards.length * 2);
+  assert.deepEqual([again.version, again.design, again.status], [post.version + 1, DESIGN, 'draft']);
+  assert.match(again.reason, /card design/);
+  assert.deepEqual(again.cards.map((c) => c.slots.hook), post.cards.map((c) => c.slots.hook));
 });

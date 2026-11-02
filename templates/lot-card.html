@@ -5,29 +5,48 @@
 <title>Carbarn lot card</title>
 <link rel="stylesheet" href="shared.css">
 <style>
-  /* Lot card, 1080x1080, approved 1 Nov 2026. One car per picture.
-     Photo with logo, grade badge and pill; Carbarn Blue bar with hook, then model + features beside the km pill. */
-  .card{grid-template-rows:736px 1fr}
-  .bar{padding:36px 48px 40px;display:grid;align-content:center;min-width:0;overflow:hidden}
-  .hook{font:900 74px/1 var(--f);letter-spacing:-.015em;white-space:nowrap;overflow:hidden}
-  .info{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-top:22px;min-width:0}
-  .meta{min-width:0;flex:1}
-  .model{font:800 36px/1.15 var(--f);white-space:nowrap;overflow:hidden}
-  .feat{font:600 26px/1.3 var(--f);color:var(--label);margin-top:10px;white-space:nowrap;overflow:hidden}
-  .ig .card{grid-template-rows:864px 1fr}
-  .ig .bar{padding:56px 56px 80px}
+  /* Lot card, 1080x1080, from Jim's template of 2 Nov 2026 (a Carbarn Bangladesh stock card) without its price or web address,
+     plus the hook he asked to keep. The photo area is 1080x810, the 4:3 shape of auction and yard photos, so the whole car
+     shows on both formats ("The vehicle gets cutts out in the instagram post"). Only the logo sits on the photo. The Carbarn Blue
+     bar holds the hook, the car's name, then white grade and mileage chips with the auction day (or "In stock in Japan") on the right. */
+  .card{grid-template-rows:810px 1fr}
+  .bar{border-top:6px solid var(--edge);padding:0 48px;display:grid;align-content:center;min-width:0;overflow:hidden}
+  .hook{font:900 62px/1.08 var(--f);letter-spacing:-.015em;white-space:nowrap;overflow:hidden}
+  .model{font:800 34px/1.2 var(--f);margin-top:6px;white-space:nowrap;overflow:hidden}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:24px;min-width:0;margin-top:18px}
+  .chips{display:flex;gap:14px;flex:none}
+  .tag{display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 20px;background:#fff;color:var(--navy);border-radius:12px;
+    font:700 28px/1 var(--f);white-space:nowrap}
+  .tag small{font:800 19px/1 var(--f);letter-spacing:.06em;color:var(--blue)}
+  .tag b{font-weight:800;color:var(--blue)}
+  .tag svg{width:32px;height:32px;color:var(--blue);flex:none}
+  .when{display:flex;align-items:center;gap:14px;min-width:0;font:700 27px/1.2 var(--f);white-space:nowrap;overflow:hidden}
+  .when i{flex:none;width:14px;height:14px;border-radius:50%;background:#2EE07F;box-shadow:0 0 0 5px rgba(46,224,127,.28)}
+  .when.stock i{background:#fff;box-shadow:0 0 0 5px rgba(255,255,255,.28)}
+  /* Instagram 1080x1440: the same 4:3 photo, and a taller bar where the hook may take two lines (never three). */
+  .ig .card{grid-template-rows:810px 1fr}
+  .ig .bar{padding:0 56px 40px}   /* clear of the bottom 64px, which a 4:5 trim cuts */
   .ig .hook{font-size:108px;line-height:1.04;white-space:normal;text-wrap:balance}
   .ig .hook .nb{white-space:nowrap}
-  .ig .info{margin-top:40px}
-  .ig .model{font-size:40px}
-  .ig .feat{font-size:28px;margin-top:12px}
+  .ig .model{font-size:44px;margin-top:18px}
+  .ig .row{margin-top:34px}
+  .ig .tag{height:64px;padding:0 24px;font-size:32px}
+  .ig .tag small{font-size:22px}
+  .ig .tag svg{width:36px;height:36px}
+  .ig .when{font-size:30px}
 </style>
 <script src="shared.js"></script>
 </head>
 <body>
 <div class="card" id="card"></div>
 <script>
-  // card = {market:{logo,brand,lang}, photo:{src,focus,zoom,blur}, slots:{hook,model,feat,km|chip,grade,pill,pillTone}}
+  // A speedometer for the mileage chip.
+  const GAUGE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">'
+    + '<path d="M4.2 18a9 9 0 1 1 15.6 0"/><path d="M12 14.5l4.2-4.2"/><path d="M7.4 9.2l1 1M12 6.4v1.4M16.6 9.2l-1 1"/>'
+    + '<circle cx="12" cy="14.5" r="1.7" fill="currentColor" stroke="none"/></svg>';
+
+  // card = {market:{logo,brand,lang}, photo:{src,focus,zoom,blur}, slots:{hook,model,km,grade,pill,pillTone}}
+  // feat stays on the card for the caption; it is not drawn.
   window.draw = async function (card) {
     const s = card.slots, e = window.esc;
     document.documentElement.lang = card.market.lang || 'en';
@@ -35,15 +54,17 @@
     el.innerHTML = `
       <div class="photo" id="stage">
         ${card.photo.fit === 'contain' ? `<img class="back" src="${e(card.photo.src)}" alt="">` : ''}<img class="car" src="${e(card.photo.src)}" alt="${e(s.model)}">
-        <img class="logo" src="../assets/logos/${e(card.market.logo)}" alt="${e(card.market.brand)}">
-        ${s.grade ? `<div class="grade"><small>GRADE</small><b>${e(s.grade)}</b></div>` : ''}
-        ${s.pill ? `<span class="pill ${s.pillTone === 'stock' ? 'stock' : ''}"><i></i>${e(s.pill)}</span>` : ''}
+        <span class="brand"><img class="logo" src="../assets/logos/${e(card.market.logo)}" alt="${e(card.market.brand)}"></span>
       </div>
       <div class="bar" data-box="bar">
-        <div class="hook" data-fit="hook">${e(s.hook).replace(/\S+-\S+/g, '<span class="nb">$&</span>')}</div>
-        <div class="info">
-          <div class="meta"><div class="model" data-fit="model">${e(s.model)}</div><div class="feat" data-fit="feat">${e(s.feat)}</div></div>
-          <span class="chip">${e(s.chip ?? s.km)}</span>
+        ${s.hook ? `<div class="hook" data-fit="hook" data-lines="2">${e(s.hook).replace(/\S+-\S+/g, '<span class="nb">$&</span>')}</div>` : ''}
+        <div class="model" data-fit="model">${e(s.model)}</div>
+        <div class="row">
+          <div class="chips">
+            ${s.grade ? `<span class="tag"><small>GRADE</small><b>${e(s.grade)}</b></span>` : ''}
+            ${s.km ? `<span class="tag">${GAUGE}${e(s.km)}</span>` : ''}
+          </div>
+          ${s.pill ? `<div class="when ${s.pillTone === 'stock' ? 'stock' : ''}" data-fit="when"><i></i>${e(s.pill)}</div>` : ''}
         </div>
       </div>`;
     await window.finish(await window.placePhoto(document.getElementById('stage'), card.photo));

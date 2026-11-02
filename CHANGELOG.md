@@ -6,6 +6,46 @@ and versions follow `MAJOR.MINOR.PATCH`.
 ## [Unreleased]
 
 ### Changed
+- **New lot card, from Jim's template.** The photo fills the top with only the logo plate on it,
+  now top right. The Carbarn Blue bar below holds the car's name, then white GRADE and mileage
+  chips, with the auction day ("Live Auction · Thu 5 Nov") or "In Stock In Japan" on the right.
+  The hook stays as the big line above the car's name. The photo area is 1080×810, the 4:3
+  shape of auction photos, so the whole car shows on Facebook and Instagram alike. No price and
+  no web address on any picture: a stock car's price is in its caption only. The features line
+  is no longer drawn; it still writes the caption. The info cards move their logo to the top
+  right too. Posts drawn before show **Redraw with the new design**. (Jim, 2 Nov 2026: "Just
+  exclude the price… there should not be website link marked on the image", then "The vehicle
+  gets cutts out in the instagram post. Also what about those hooks.")
+- **The car is no longer under a shade.** The dark navy shade across the top of every photo is
+  gone; the CARBARN wordmark sits on its own Carbarn Blue plate with a white border, the twin of
+  the GRADE badge. The stock-gallery cards lose their bottom shade too, and every photo gets a
+  light lift in brightness and contrast for flat auction-hall light. (Jim, 2 Nov 2026: "The
+  shadow engulfed the vehicle a lot. So a customer might find out this uninteresting".)
+
+### Added
+- **Blur a plate by its four corners.** Draw a blur box now takes four clicks, one on each
+  corner of the plate, so the blur follows a plate seen at an angle instead of a straight box
+  around it. Right-click takes back the last corner. Older boxes still work. (Jim, 2 Nov 2026:
+  "the perspective of the number plate is not straight box".)
+- **Redraw with the new design.** A post drawn with an earlier card design says so in the
+  studio, with a button that draws every picture again with the same cars, text and photos (and
+  rewrites a caption you have not edited). A stamped post goes back to draft for a new stamp.
+
+### Fixed
+- **Gemini says why it refused.** A key whose Google project has no billing now gets a plain
+  message saying billing must be turned on (Gemini's image models have no free use), instead of
+  "over its quota". A real per-minute limit is waited out, as long as Google asks, and tried
+  again. (Jim, 2 Nov 2026, of a post where all four photos failed: "Why is this happening.")
+- **Captions no longer pick up the pictures' capitals.** "a Toyota Carina ED with alloy Wheels"
+  reads "with alloy wheels" again. The capitals are added only when a picture is drawn, so the
+  stored text and the captions keep the words as written.
+- **A car name a little too long is set smaller instead of failing.** "1995 Mazda Bongo Brawny
+  Van V" fits on the Instagram card; a line still too long at 80% of its size is reported.
+- **The same warning on several cards is one line.** "Soft photo on cards 1, 2, 3 and 4",
+  "Gemini could not sharpen cards 1, 2, 3 and 4".
+
+
+### Changed
 - **R and RA grade cars are never put in a post.** Cars with a repair history are left out of
   live-lot and lot-spotlight posts and out of the swap list. Carbarn's own stock is unaffected.
   (Jim, 2 Nov 2026, after rejecting a post because "This lot is R grade": "r should be skipped".)

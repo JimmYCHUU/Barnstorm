@@ -123,3 +123,15 @@ test('case: every word on a picture starts with a capital, and nothing else chan
   ];
   for (const [from, to] of cases) assert.equal(capitalWords(from), to, from);
 });
+
+test('case: captions turn card capitals back into a sentence, keeping short forms and brands', async () => {
+  const { sentenceWords } = await import('../lib/text/case.js');
+  assert.equal(sentenceWords('Alloy Wheels'), 'alloy wheels');
+  assert.equal(sentenceWords('Sat Nav & TV'), 'sat nav & TV');
+  assert.equal(sentenceWords('4WD · 6-Speed Manual · Leather Seats'), '4WD · 6-speed manual · leather seats');
+  assert.equal(sentenceWords('Recaro Seats', /^Recaro/), 'Recaro seats');
+  const { carList } = await import('../lib/text/captions.js');
+  const card = (make, model, feat) => ({ facts: { make, model, year: 1994 }, slots: { feat } });
+  assert.match(carList([card('TOYOTA', 'CARINA ED', 'Alloy Wheels · 2.0 Petrol · Automatic')]), /with alloy wheels$/);
+});
+

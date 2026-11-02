@@ -119,6 +119,12 @@ test('qa: stock price on the card must match the listing', async () => {
   assert.ok((await ids(post({ topic: 'stock-spotlight', cards: [stockCard({ slots: { ...stockCard().slots, chip: '£8,000' } })] }))).includes('fact-mismatch'));
 });
 
+test('qa: a stock card without a price is fine, and its mileage must match the listing', async () => {
+  const { chip, ...slots } = stockCard().slots;
+  assert.deepEqual(await ids(post({ topic: 'stock-spotlight', cards: [stockCard({ slots: { ...slots, km: '14,000 km' } })] })), ['hero-photo']);
+  assert.ok((await ids(post({ topic: 'stock-spotlight', cards: [stockCard({ slots: { ...slots, km: '12,000 km' } })] }))).includes('fact-mismatch'));
+});
+
 test('qa: stock-gone when the stock car is sold or removed', async () => {
   const sold = { getStockVehicle: async () => ({ status: 'SOLD', price: { amount: 8400, currency: 'GBP' } }) };
   assert.ok((await ids(post({ topic: 'stock-spotlight', cards: [stockCard()] }), { refetch: true, source: sold })).includes('stock-gone'));
@@ -152,5 +158,5 @@ test('qa: a photo sharpened by Gemini is flagged to compare with the original, a
   const f = await runQA(post({ cards: [card({ photo: { source: 'auction', w: 2048, h: 1536, original: { w: 640, h: 480 }, enhanced: { model: 'm' } } })] }));
   assert.ok(f.some((x) => x.id === 'sharpened') && !f.some((x) => x.id === 'low-res'), f.map((x) => x.id).join(','));
   assert.match(f.find((x) => x.id === 'sharpened').message, /^Look at card 1 beside the original photo/);
-  assert.match((await runQA(post({ cards: [card({ photo: { source: 'own', w: 640, h: 480 } })] })))[0].message, /Sharpen it with Gemini/);
+  assert.match((await runQA(post({ cards: [card({ photo: { source: 'own', w: 640, h: 480 } })] })))[0].message, /Sharpen with Gemini/);
 });
